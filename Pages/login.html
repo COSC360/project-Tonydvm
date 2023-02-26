@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="css/reset.css" />
-<link rel="stylesheet" href="css/login.css" />
 <html>
+  <head>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/forms.css" />
+  </head>
   <header>
     <div class="header-wrapper">
       <a href="landing.html"><h1 id="logo">PANTRY</h1></a>
@@ -10,23 +12,26 @@
 
   <body>
     <div class="wrap">
-      <form class="login-form" action="">
+      <form class="account-form" action="">
         <div class="form-header">
           <h2>Login</h2>
         </div>
-        <!--Email Input-->
         <div class="form-group">
           <input
             type="text"
             class="form-input"
             placeholder="email@example.com"
+            required
           />
         </div>
-        <!--Password Input-->
         <div class="form-group">
-          <input type="password" class="form-input" placeholder="password" />
+          <input
+            type="password"
+            class="form-input"
+            placeholder="password"
+            required
+          />
         </div>
-        <!--Login Button-->
         <div class="form-group">
           <button class="form-button" type="submit">Login</button>
         </div>
@@ -35,6 +40,5 @@
         </div>
       </form>
     </div>
-    <!--/.wrap-->
   </body>
 </html>
