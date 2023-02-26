@@ -23,3 +23,45 @@ img {
     font-size: 100%;
     vertical-align: baseline;
 }
+
+/* h1,
+h2,
+h3,
+body,
+nav,
+header,
+footer,
+p {
+    font-family: Helvetica Neue,Helvetica,Arial,sans-serif; 
+} */
+
+* {
+    font-family: Helvetica Neue,Helvetica,Arial,sans-serif; 
+}
+
+h1 {
+    font-size: 2em;
+}
+
+h2 {
+    font-size: 1em;
+}
+
+h3 {
+    font-size: 1.125em;
+    border-bottom: 1px solid grey;
+    margin-bottom: 0.5em;
+}
+
+nav {
+    font-size: 1.125em;
+}
+
+body {
+    font-size: 100%;
+}
+
+header {
+    height: 6em;
+    background-color: rgba(49,49,49,1);
+}

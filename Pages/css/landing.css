@@ -1,53 +1,6 @@
-h1,
-h2,
-h3,
-body,
-nav,
-header,
-footer,
-p {
-    font-family: Helvetica Neue,Helvetica,Arial,sans-serif; 
-}
-
-h1 {
-    font-size: 2em;
-}
-
-h2 {
-    font-size: 1em;
-}
-
-h3 {
-    font-size: 1.125em;
-    border-bottom: 1px solid grey;
-    margin-bottom: 0.5em;
-}
-
-nav {
-    font-size: 1.125em;
-}
-
-body {
-    font-size: 100%;
-}
-
-header {
-    height: 6em;
-    background-color: rgba(49,49,49,1);
-}
-
-.wrapper {
-    display: flex;  
-    flex-flow: nowrap;
-    font-weight: bold;
-    text-align: center; 
-    padding: 1.5em;
-    color: white;
-    align-items: center;
-}
-
 #logo {
     order: 1;
+    
 }
 
 #search {
@@ -75,4 +28,22 @@ header {
     border-radius: 52px;
 
     order: 4;
+}
+a {
+    color: white;
+    text-decoration: none;
+}
+a:visited {
+    color: white;   
+    text-decoration: none;
+}
+
+.header-wrapper {
+    display: flex;  
+    flex-flow: nowrap;
+    font-weight: bold;
+    text-align: center; 
+    padding: 1.5em;
+    color: white;
+    align-items: center;
 }
