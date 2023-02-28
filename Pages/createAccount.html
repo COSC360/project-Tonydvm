@@ -5,13 +5,24 @@
     <link rel="stylesheet" href="css/forms.css" />
     <!-- <script>
       function validateForm() {
-        document.getElementById("").onsubmit = function (e) {
-          var fieldValue = document.getElementById("email").value;
-          if (fieldValue == null || fieldValue == "") {
-            e.preventDefault();
-            alert("Must enter an email");
-          }
-        };
+        let x = document.forms["signUpForm"]["email"].value;
+        let y = document.forms["signUpForm"]["password"].value;
+        if (x == "") {
+          alert("Email must be filled out");
+          return false;
+        }
+        if (x.contains("@") == false) {
+          alert("Email must be valid");
+          return false;
+        }
+        if (y == "") {
+          alert("Password must be filled out");
+          return false;
+        }
+        if (y.length < 8) {
+          alert("Password must be at least 8 characters");
+          return false;
+        }
       }
     </script> -->
   </head>
@@ -23,29 +34,66 @@
 
   <body>
     <div class="wrap">
-      <form class="account-form" action="">
+      <form
+        class="account-form"
+        name="signUpForm"
+        onsubmit="return validateForm()"
+        method="post"
+      >
         <div class="form-header">
           <h2>Create an Account</h2>
         </div>
         <div class="form-group">
           <input
             type="text"
+            name="firstName"
             class="form-input"
-            placeholder="email@example.com"
+            placeholder="first name"
             required
           />
         </div>
         <div class="form-group">
           <input
-            type="password"
+            type="text"
+            name="lastName"
             class="form-input"
-            placeholder="password"
+            placeholder="last name"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <input
+            type="text"
+            name="city"
+            class="form-input"
+            placeholder="city"
             required
           />
         </div>
         <div class="form-group">
-          <button class="form-button" type="submit">Create Account</button>
+          <input
+            type="text"
+            name="email"
+            class="form-input"
+            placeholder="email@example.com"
+            required
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            oninvalid="this.setCustomValidity('Please enter a valid email address')"
+          />
         </div>
+        <div class="form-group">
+          <input
+            type="password"
+            name="password"
+            class="form-input"
+            placeholder="password"
+            required
+            minlength="8"
+          />
+        </div>
+        <button class="form-button" type="submit">Create Account</button>
+
         <div class="form-footer">
           <a href="login.html">Login Instead</a>
         </div>
