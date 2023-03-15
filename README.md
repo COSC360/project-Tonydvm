@@ -3,10 +3,6 @@
 ## Milestone 1 Submission:
 <hr/>
 
-### Team Members
-- Alexis Oduro-Domfe
-- Antonio Vazquez-Mackay
-
 
 ### Project Description
 
