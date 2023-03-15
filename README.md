@@ -1,9 +1,5 @@
 # COSC360_GroceryTracker
 
-## Milestone 1 Submission:
-<hr/>
-
-
 ### Project Description
 
 Our site GroceryPriceTracker is a web application that aims to be a simple crowd-sourced grocery price tracker. Thus, it relies on its users to keep the database updated.
