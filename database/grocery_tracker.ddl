@@ -46,7 +46,7 @@ CREATE TABLE grocery_item_prices (
   grocery_item_id INT(11) NOT NULL,
   store_id INT(11) NOT NULL,
   price DECIMAL(10, 2) NOT NULL,
-  date DATE NOT NULL,
+  price_date DATE NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (grocery_item_id) REFERENCES grocery_items(id),
   FOREIGN KEY (store_id) REFERENCES stores(id)
@@ -57,7 +57,7 @@ CREATE TABLE price_history (
   price_history_id INT NOT NULL AUTO_INCREMENT,
   price_id INT NOT NULL,
   price DECIMAL(10,2) NOT NULL,
-  date DATETIME NOT NULL,
+  history_date DATETIME NOT NULL,
   PRIMARY KEY (price_history_id),
   FOREIGN KEY (price_id) REFERENCES grocery_item_prices(id)
 );
@@ -99,7 +99,7 @@ VALUES ('Produce'),
 
 
 -- Insert sample data into PriceHistory table
-INSERT INTO PriceHistory (price_id, price, date)
+INSERT INTO price_history (price_id, price, history_date)
 VALUES (1, 1.29, '2022-03-13 09:00:00'),
        (2, 0.99, '2022-03-13 09:00:00'),
        (3, 2.99, '2022-03-13 09:00:00'),
@@ -130,7 +130,7 @@ VALUES (1, 'Apples', 'Red Delicious', 'Produce', 'Fresh and crisp', 'img/apple.j
        (7, 'Butter', 'Dairyland', 'Dairy', 'Salted butter', 'img/butter.jpg');
 
 -- Insert sample data into the 'grocery_item_prices' table
-INSERT INTO grocery_item_prices (grocery_item_id, store_id, price, date)
+INSERT INTO grocery_item_prices (grocery_item_id, store_id, price, price_date)
 VALUES (1, 1, 0.99, '2022-03-13'),
        (1, 2, 1.29, '2022-03-16'),
        (2, 1, 3.49, '2022-03-13'),
