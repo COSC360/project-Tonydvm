@@ -36,7 +36,7 @@
 
   <div id="search"><input type="text" placeholder="Search" /></div>
 
-  <a href="createAccount.html" id="createAccount"> <h2>Create Account</h2></a>
+  <a href="createAccount.php" id="createAccount"> <h2>Create Account</h2></a>
   <a href="login.html" id="login">
     <div class="button">
       <h2>Log In</h2>
