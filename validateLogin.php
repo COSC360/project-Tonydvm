@@ -7,10 +7,12 @@ try{
     $pdo = new PDO($connString, $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+
     // get the email and password from the form submission and store them in variables 
     $email = $_GET['email'];
     $password = $_GET['password'];
 
+    // create a query to select the user from the database
     $sql = "SELECT * FROM users WHERE email = ? AND password = ?";
     $statement = $pdo->prepare($sql);
     $statement->execute([$email, $password]);
