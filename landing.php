@@ -10,7 +10,7 @@
   </head>
   <body>
     <header>
-      <!-- <?php $IPATH = $_SERVER["DOCUMENT_ROOT"]."/assets/php/"; include ($IPATH."header.php"); ?> -->
+      <?php $IPATH = $_SERVER["DOCUMENT_ROOT"]."/assets/php/"; include ($IPATH."header.php"); ?>
       <div class="header-wrapper">
         <a href="landing.html"><h1 id="logo">PANTRY</h1></a>
 
