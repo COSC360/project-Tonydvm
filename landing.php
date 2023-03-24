@@ -49,18 +49,35 @@
     <div class="body-container">
       <div class="left-container">
         <h2>Low Priced Items</h2>
-        <ul>
-          <li>Item 1</li>
-          <li>Item 2</li>
-          <li>Item 3</li>
-          <li>Item 4</li>
-          <li>Item 5</li>
-          <li>Item 6</li>
-          <li>Item 7</li>
-          <li>Item 8</li>
-          <li>Item 9</li>
-          <li>Item 10</li>
-        </ul>
+        <!-- collect first 10 products from databse under products and display links as a list -->
+        <?php
+        try {
+          $connString = "mysql:host=localhost;dbname=db_76865732";
+          $user = "76865732";
+          $pass = "76865732";
+
+          $pdo = new PDO($connString, $user, $pass);
+          $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+          // get first 10 products from database and display as a list of links 
+          $sql = "SELECT * FROM products LIMIT 10";
+          $statement = $pdo->prepare($sql);
+          $statement->execute();
+
+          // extract product info from query result
+          $products = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+          // display product info
+          echo '<ul>';
+          foreach ($products as $product) {
+            echo '<li><a href="product.php?id=' . $product['id'] . '">' . $product['name'] . '</a></li>';
+          }
+          echo '</ul>';
+
+        } catch (PDOException $e) {
+          die($e->getMessage());
+        }
+        ?>
       </div>
       <div class="right-container">
         <h2>Watchlist</h2>
