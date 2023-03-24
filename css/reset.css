@@ -22,18 +22,8 @@ img {
     border: 0;
     font-size: 100%;
     vertical-align: baseline;
+    color: white;
 }
-
-/* h1,
-h2,
-h3,
-body,
-nav,
-header,
-footer,
-p {
-    font-family: Helvetica Neue,Helvetica,Arial,sans-serif; 
-} */
 
 * {
     font-family: Helvetica Neue,Helvetica,Arial,sans-serif; 
@@ -63,5 +53,4 @@ body {
 
 header {
     height: 6em;
-    background-color: rgba(49,49,49,1);
 }

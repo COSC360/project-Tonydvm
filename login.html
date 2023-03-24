@@ -12,13 +12,19 @@
 
   <body>
     <div class="wrap">
-      <form class="account-form" name="login" action="">
+      <form
+        class="account-form"
+        name="login"
+        action="validateLogin.php"
+        method="get"
+      >
         <div class="form-header">
           <h2>Login</h2>
         </div>
         <div class="form-group">
           <input
             type="text"
+            name="email"
             class="form-input"
             placeholder="email@example.com"
             required
@@ -27,6 +33,7 @@
         <div class="form-group">
           <input
             type="password"
+            name="password"
             class="form-input"
             placeholder="password"
             required

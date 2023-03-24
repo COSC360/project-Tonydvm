@@ -3,14 +3,30 @@
 }
 #search {
     border: 0;
-    background-color: #505050;
+    background-color: rgb(61, 65, 68);
     padding: 1em;
-    border-radius: 52px;
+    border-radius: 5em;
     align-items: flex-start;
     margin-left: auto;
     margin-right: auto;
-
     order: 2;
+    width: max-content;
+}
+
+#search input {
+    border: 0;
+    background-color: rgb(61, 65, 68);
+    
+    /* border-radius: 52px; */
+    align-items: flex-start;
+    margin-left: auto;
+    margin-right: auto;
+    order: 2;
+    color: white;
+    padding-right: 40em;
+    border-color: 0;
+    color: white;
+    font-size: 1em;
 }
 
 #createAccount {
@@ -20,18 +36,17 @@
 }
 .button {
     border: 0;
-    background-color: #505050;
+    background-color: rgb(61, 65, 68);
     padding: 1em;
     border-radius: 52px;
 }
-#logIn {
-    /* border: 0;
-    background-color: #505050;
-    padding: 1em;
-    border-radius: 52px; */
-
+#login {
     order: 4;
 }
+#preferences {
+    order: 5;
+}
+
 a {
     color: white;
     text-decoration: none;
@@ -43,10 +58,39 @@ a:visited {
 
 .header-wrapper {
     display: flex;  
-    flex-flow: nowrap;
+    background-color: rgb(37, 40, 42);
+    /* flex-flow: nowrap; */
     font-weight: bold;
     text-align: center; 
     padding: 1.5em;
     color: white;
     align-items: center;
+}
+
+body {
+    background-color: rgb(24, 26, 27);
+}
+textarea:focus, input:focus{
+    outline: none;
+}
+
+.body-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    /* max-width: 1200px; */
+    color: white;
+}
+.left-container{
+    width: 80%;
+    background-color: rgba(49,49,49,1);
+    margin: 1em;
+    padding: 2em;  
+}
+.right-container{
+    width: 20%;
+    background-color: rgba(49,49,49,1);
+    margin: 1em;
+    padding: 2em;
 }

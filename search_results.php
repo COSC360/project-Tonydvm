@@ -10,7 +10,7 @@
   <body>
     <header>
           <div class="header-wrapper">
-            <a href="landing.html"><h1 id="logo">PANTRY</h1></a>
+            <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
             <a href="createAccount.php" id="createAccount"
               ><h2>Create Account</h2></a
             >

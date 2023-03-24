@@ -3,28 +3,6 @@
   <head>
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/forms.css" />
-    <!-- <script>
-      function validateForm() {
-        let x = document.forms["signUpForm"]["email"].value;
-        let y = document.forms["signUpForm"]["password"].value;
-        if (x == "") {
-          alert("Email must be filled out");
-          return false;
-        }
-        if (x.contains("@") == false) {
-          alert("Email must be valid");
-          return false;
-        }
-        if (y == "") {
-          alert("Password must be filled out");
-          return false;
-        }
-        if (y.length < 8) {
-          alert("Password must be at least 8 characters");
-          return false;
-        }
-      }
-    </script> -->
   </head>
   <header>
     <div class="header-wrapper">
@@ -37,13 +15,14 @@
       <form
         class="account-form"
         name="signUpForm"
-        onsubmit="return validateForm()"
         method="post"
+        action="createAccount.php"
+
       >
         <div class="form-header">
           <h2>Create an Account</h2>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <input
             type="text"
             name="firstName"
@@ -60,14 +39,13 @@
             placeholder="last name"
             required
           />
-        </div>
-
+        </div> -->
         <div class="form-group">
           <input
             type="text"
-            name="city"
+            name="username"
             class="form-input"
-            placeholder="city"
+            placeholder="username"
             required
           />
         </div>
@@ -82,22 +60,77 @@
             oninvalid="this.setCustomValidity('Please enter a valid email address')"
           />
         </div>
+        <!-- <div class="form-group">
+          <input
+            type="text"
+            name="city"
+            class="form-input"
+            placeholder="city"
+            required
+          />
+        </div> -->
         <div class="form-group">
           <input
             type="password"
             name="password"
             class="form-input"
-            placeholder="password"
+            placeholder="password (minimum 8 characters)"
             required
             minlength="8"
           />
         </div>
+        <!-- image upload -->
+        <div class="form-group">
+          <input
+            type="file"
+            name="image"
+            class="form-input"
+            placeholder="image"
+            required
+          />
+        </div>
         <button class="form-button" type="submit">Create Account</button>
-
         <div class="form-footer">
           <a href="login.html">Login Instead</a>
         </div>
       </form>
     </div>
+    <?php 
+    try{
+      $connString = "mysql:host=localhost;dbname=db_76865732";
+      $user = "76865732";
+      $pass = "76865732";
+  
+      $pdo = new PDO($connString, $user, $pass);
+      $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      
+      // get form data 
+      $username = $_POST['username'];
+      $email = $_POST['email'];
+      $password = $_POST['password'];
+      $image = $_POST['image'];
+
+      // create a query to insert the user into the database
+      $sql = "INSERT INTO users (username, email, password, image) VALUES (?, ?, ?, ?)";
+      $statement = $pdo->prepare($sql);
+      $statement->execute([$username, $email, $password, $image]);
+
+      // return a response to the app
+      $response = array();
+      $response["success"] = true;
+
+      if ($statement->rowCount() > 0){
+        header("Location: landing.html?message=Login%20Successful");
+      }
+      else{
+        $response["success"] = false;
+      }
+
+      echo json_encode($response);
+    }
+    catch (PDOException $e){
+      die($e->getMessage());
+    }
+    ?>
   </body>
 </html>
