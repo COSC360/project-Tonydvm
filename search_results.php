@@ -4,7 +4,7 @@
   <title>Search Results</title>
   <link rel="stylesheet" href="css/reset.css" />
   <link rel="stylesheet" href="css/landing.css">
-  <script src="js/live_search.js"></script>
+  <script src="js/livesearch.js"></script>
   
 </head>
   <body>
@@ -62,9 +62,9 @@
       <?php
         // Connect to the database
         $host = 'localhost';
-        $user = 'username';
-        $password = 'password';
-        $database = 'grocery_tracker';
+        $user = '76865732';
+        $password = '76865732';
+        $database = 'db_76865732';
         $conn = mysqli_connect($host, $user, $password, $database);
 
         // Check connection
