@@ -95,6 +95,50 @@
         </div>
       </form>
     </div>
+    <script> 
+    // javascript validation
+    // check that file size is less than 1MB
+    var fileInput = document.querySelector('input[type="file"]');
+    fileInput.onchange = function () {
+      if (fileInput.files.length > 0) {
+        var file = fileInput.files[0];
+        if (file.size > 1024 * 1024) {
+          alert("File is too big!");
+          fileInput.value = "";
+        }
+      }
+    };
+
+    // check that password is at least 8 characters
+    var password = document.getElementById("password");
+    var confirm_password = document.getElementById("confirm_password");
+
+    function validatePassword(){
+      if(password.value != confirm_password.value) {
+        confirm_password.setCustomValidity("Passwords Don't Match");
+      } else {
+        confirm_password.setCustomValidity('');
+      }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+
+    // check that email is valid
+    var email = document.getElementById("email");
+    var confirm_email = document.getElementById("confirm_email");
+
+    function validateEmail(){
+      if(email.value != confirm_email.value) {
+        confirm_email.setCustomValidity("Emails Don't Match");
+      } else {
+        confirm_email.setCustomValidity('');
+      }
+    }
+
+    email.onchange = validateEmail;
+    confirm_email.onkeyup = validateEmail;
+    </script>
     <?php 
     try{
       $connString = "mysql:host=localhost;dbname=db_76865732";
