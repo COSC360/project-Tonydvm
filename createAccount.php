@@ -15,13 +15,14 @@
       <form
         class="account-form"
         name="signUpForm"
-        onsubmit="landing.html"
         method="post"
+        action="createAccount.php"
+
       >
         <div class="form-header">
           <h2>Create an Account</h2>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <input
             type="text"
             name="firstName"
@@ -38,7 +39,7 @@
             placeholder="last name"
             required
           />
-        </div>
+        </div> -->
         <div class="form-group">
           <input
             type="text"
@@ -59,7 +60,7 @@
             oninvalid="this.setCustomValidity('Please enter a valid email address')"
           />
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <input
             type="text"
             name="city"
@@ -67,38 +68,69 @@
             placeholder="city"
             required
           />
-        </div>
+        </div> -->
         <div class="form-group">
           <input
             type="password"
             name="password"
             class="form-input"
-            placeholder="password (minimum 8 characters))"
+            placeholder="password (minimum 8 characters)"
             required
             minlength="8"
           />
         </div>
+        <!-- image upload -->
+        <div class="form-group">
+          <input
+            type="file"
+            name="image"
+            class="form-input"
+            placeholder="image"
+            required
+          />
+        </div>
         <button class="form-button" type="submit">Create Account</button>
-
         <div class="form-footer">
           <a href="login.html">Login Instead</a>
         </div>
       </form>
     </div>
     <?php 
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $firstName = $_POST['firstName'];
-    $lastName = $_POST['lastName'];
-    $city = $_POST['city'];
-    $statement = mysqli_prepare($conn, "INSERT INTO users (email, password, firstName, lastName, city) VALUES (?, ?, ?, ?, ?)");
-    mysqli_stmt_bind_param($statement, "sssss", $email, $password, $firstName, $lastName, $city);
-    mysqli_stmt_execute($statement);
+    try{
+      $connString = "mysql:host=localhost;dbname=db_76865732";
+      $user = "76865732";
+      $pass = "76865732";
+  
+      $pdo = new PDO($connString, $user, $pass);
+      $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      
+      // get form data 
+      $username = $_POST['username'];
+      $email = $_POST['email'];
+      $password = $_POST['password'];
+      $image = $_POST['image'];
 
-    $response = array();
-    $response["success"] = true;
+      // create a query to insert the user into the database
+      $sql = "INSERT INTO users (username, email, password, image) VALUES (?, ?, ?, ?)";
+      $statement = $pdo->prepare($sql);
+      $statement->execute([$username, $email, $password, $image]);
 
-    echo json_encode($response);
+      // return a response to the app
+      $response = array();
+      $response["success"] = true;
+
+      if ($statement->rowCount() > 0){
+        header("Location: landing.html?message=Login%20Successful");
+      }
+      else{
+        $response["success"] = false;
+      }
+
+      echo json_encode($response);
+    }
+    catch (PDOException $e){
+      die($e->getMessage());
+    }
     ?>
   </body>
 </html>
