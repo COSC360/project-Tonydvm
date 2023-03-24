@@ -20,9 +20,16 @@ try{
     $statement = $pdo->prepare($sql);
     $statement->execute([$email, $password]);
 
+    // extract user id from the query result
+    $userId = $statement->fetchColumn(0);
+
+
     // if the user exists
     if($statement->rowCount() > 0){
         header("Location: landing.html");
+        // create session state and redirect to landing page
+        session_start();
+        $_SESSION['user'] = $userId;
         header("Location: landing.html?message=Login%20Successful");
     }
     else{
