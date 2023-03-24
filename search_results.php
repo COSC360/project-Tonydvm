@@ -61,16 +61,31 @@
 
       <?php
         // Connect to the database
+        $connString = "mysql:host=localhost;dbname=db_76865732";
+        $user = "76865732";
+        $pass = "76865732";
+
+        $pdo = new PDO($connString, $user, $pass);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        // Check connection
+        if (!$pdo) {
+          die("Connection failed: " . mysqli_connect_error());
+        }
+
+        /*
         $host = 'localhost';
         $user = '76865732';
         $password = '76865732';
         $database = 'db_76865732';
         $conn = mysqli_connect($host, $user, $password, $database);
+        
 
         // Check connection
         if (!$conn) {
           die("Connection failed: " . mysqli_connect_error());
         }
+        */
 
         // Get search query and selected store and city from form submission
         $search_query = $_POST['item-name'];
@@ -86,10 +101,12 @@
         AND stores.city = '$selected_city'
         AND stores.name = '$selected_store'
         ORDER BY grocery_items.name ASC";
-        $result = $conn->query($sql);
+        // $result = $conn->query($sql);
+        $statement = $pdo->prepare($sql);
+        $statement->execute([$search_query, $selected_store, $selected_city]);
 
         // Check if there are any results
-        if ($result->num_rows > 0) {
+        if ($statement->num_rows > 0) {
           echo "<table>";
           echo "<tr><th>Image</th><th>ID</th><th>Name</th><th>Price($CAN)</th></tr>";
           // Output data of each row
