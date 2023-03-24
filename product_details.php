@@ -24,9 +24,9 @@
     <?php
       // Connect to the database
       $host = 'localhost';
-      $user = 'username';
-      $password = 'password';
-      $database = 'grocery_tracker';
+      $user = '76865732';
+      $password = '76865732';
+      $database = 'db_76865732';
       $conn = mysqli_connect($host, $user, $password, $database);
 
       // Check connection
