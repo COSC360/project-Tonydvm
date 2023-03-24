@@ -12,15 +12,28 @@ try{
     $password = $_GET['password'];
 
     // create a prepared statement to select the user from the database using mysql's bind parameter functionality
-    $statement = $pdo->prepare("SELECT * FROM users WHERE email = :email AND password = :password");
-    $statement->bindParam(':email', $email);
-    $statement->bindParam(':password', $password);
-    $statement->execute();
+    $sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+
+    // prepare the statement
+    if ($statement = mysqli_prepare($connection,$sql)){
+        // bind the parameters
+        mysqli_stmt_bind_param($statement, "ss", $email, $password);
+        // execute the statement
+        mysqli_stmt_execute($statement);
+        // store the result
+        mysqli_stmt_store_result($statement);
+    }
+
+    // $statement = $pdo->prepare("SELECT * FROM 'users' WHERE email = ':email' AND password = ':password'");
+    // $statement->bindParam(':email', $email);
+    // $statement->bindParam(':password', $password);
+    // $statement->execute();
 
     // if the user exists, redirect to the home page
-    if($statement->rowCount() > 0){
+    if(mysqli_stmt_num_rows($statement) > 0){
         header("Location: home.html");
     }
+    
     else{
         // if the user does not exist, redirect to the login page
         header("Location: login.html");
