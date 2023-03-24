@@ -28,7 +28,9 @@ try{
 
     // if the user exists, redirect to the home page
     if($statement->rowCount() > 0){
-        header("Location: home.html");
+        header("Location: landing.html");
+        // state that the login was successful in get parameter
+        header("Location: landing.html?message=Login%20Successful");
     }
 
     else{
