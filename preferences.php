@@ -48,7 +48,7 @@ catch (PDOException $e){
 ?>
 
         <!-- log out button ends php session -->
-        <a href="landing.php">
+        <a href="logout.php">
           <div class="button" style="width:20em;">
             <h2>Log Out</h2>
           </div>
