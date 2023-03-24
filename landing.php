@@ -10,7 +10,42 @@
   </head>
   <body>
     <header>
-      <?php include 'header.php'; ?>
+      <!-- php dynamic header changes based on session user  -->
+      <?php 
+        session_start();
+        if(isset($_SESSION['user'])){
+          echo '
+          <div class="header-wrapper" id="logged">
+  <a href="landing.html"><h1 id="logo">PANTRY</h1></a>
+
+  <div id="search">
+    <input type="text" placeholder="Search" />
+  </div>
+  <a href="preferences.html" id="preferences">
+    <div class="button">
+      <h2>Preferences</h2>
+    </div>
+  </a>
+</div>
+
+          ';
+        }else{
+          echo '
+          <div class="header-wrapper" id="guest">
+  <a href="landing.html"><h1 id="logo">PANTRY</h1></a>
+
+  <div id="search"><input type="text" placeholder="Search" /></div>
+
+  <a href="createAccount.html" id="createAccount"> <h2>Create Account</h2></a>
+  <a href="login.html" id="login">
+    <div class="button">
+      <h2>Log In</h2>
+    </div>
+  </a>
+</div>
+          ';
+        }
+      ?>
     </header>
     <main>
       <div class="body-container">
