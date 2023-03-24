@@ -24,6 +24,8 @@ try{
     else{
         // if the user does not exist, redirect to the login page
         header("Location: login.html");
+        // include a message to the user that the login was unsuccessful in get parameter
+        header("Location: login.html?message=Login%20Unsuccessful");
     }
 }
 catch (PDOException $e){
