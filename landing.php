@@ -10,22 +10,7 @@
   </head>
   <body>
     <header>
-      <!-- <?php $IPATH = $_SERVER["DOCUMENT_ROOT"]."/assets/php/"; include ($IPATH."header.php"); ?> -->
-      <? php include 'header.php'; ?>
-      <div class="header-wrapper">
-        <a href="landing.html"><h1 id="logo">PANTRY</h1></a>
-
-        <div id="search"><input type="text" placeholder="Search" /></div>
-
-        <a href="createAccount.php" id="createAccount">
-          <h2>Create Account</h2></a
-        >
-        <a href="login.html" id="login">
-          <div class="button">
-            <h2>Log In</h2>
-          </div>
-        </a>
-      </div>
+      <?php include 'header.php'; ?>
     </header>
     <main>
       <div class="body-container">

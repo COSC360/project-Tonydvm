@@ -1,5 +1,15 @@
 <!-- dynamic header using php will change based on logged in status -->
 
+<?php
+  session_start();
+  if(isset($_SESSION['user'])){
+    echo '<div class="header-wrapper" id="logged">';
+  }else{
+    echo '<div class="header-wrapper" id="guest">';
+  }
+?>
+
+<html>
 <div class="header-wrapper" id="guest">
   <a href="landing.html"><h1 id="logo">PANTRY</h1></a>
 
@@ -13,7 +23,7 @@
   </a>
 </div>
 
-<!-- <div class="header-wrapper" id="logged">
+<div class="header-wrapper" id="logged">
   <a href="landing.html"><h1 id="logo">PANTRY</h1></a>
 
   <div id="search">
@@ -24,4 +34,5 @@
       <h2>Preferences</h2>
     </div>
   </a>
-</div> -->
+</div>
+</html>
