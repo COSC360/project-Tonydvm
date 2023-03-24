@@ -16,23 +16,23 @@
         if(isset($_SESSION['user'])){
           echo '
           <div class="header-wrapper" id="logged">
-  <a href="landing.html"><h1 id="logo">PANTRY</h1></a>
+          <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
 
-  <div id="search">
-    <input type="text" placeholder="Search" />
-  </div>
-  <a href="preferences.html" id="preferences">
-    <div class="button">
-      <h2>Preferences</h2>
-    </div>
-  </a>
-</div>
+          <div id="search">
+            <input type="text" placeholder="Search" />
+          </div>
+          <a href="preferences.html" id="preferences">
+          <div class="button">
+          <h2>Preferences</h2>
+        </div>
+        </a>
+        </div>
 
           ';
         }else{
           echo '
           <div class="header-wrapper" id="guest">
-  <a href="landing.html"><h1 id="logo">PANTRY</h1></a>
+  <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
 
   <div id="search"><input type="text" placeholder="Search" /></div>
 

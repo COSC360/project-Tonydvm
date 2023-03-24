@@ -6,7 +6,7 @@
   </head>
   <header>
     <div class="header-wrapper">
-      <a href="landing.html"><h1 id="logo">PANTRY</h1></a>
+      <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
     </div>
   </header>
 
@@ -120,7 +120,10 @@
       $response["success"] = true;
 
       if ($statement->rowCount() > 0){
-        header("Location: landing.html?message=Login%20Successful");
+        // create session state and redirect to landing page
+        session_start();
+        $_SESSION['user'] = $userId;
+        header("Location: landing.php);
       }
       else{
         $response["success"] = false;

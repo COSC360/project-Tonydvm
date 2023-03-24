@@ -23,7 +23,7 @@ try{
 
     // if the user exists
     if($statement->rowCount() > 0){
-        header("Location: landing.html");
+        header("Location: landing.php");
         // create session state and redirect to landing page
         session_start();
         $_SESSION['user'] = $userId;
