@@ -60,7 +60,7 @@
           $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
           // get first 10 products from database and display as a list of links 
-          $sql = "SELECT * FROM products LIMIT 10";
+          $sql = "SELECT * FROM grocery_items LIMIT 10";
           $statement = $pdo->prepare($sql);
           $statement->execute();
 
