@@ -34,7 +34,7 @@ try{
     $userId = $_SESSION['user'];
 
     // get user info from database
-    $sql = "SELECT * FROM users WHERE userId = :userId";
+    $sql = "SELECT * FROM users WHERE userId = :id";
     $statement = $pdo->prepare($sql);
     $statement->execute(['userId' => $userId]);
 
