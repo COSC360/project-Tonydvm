@@ -1,11 +1,14 @@
 <?php
 try{
-    $connString = "mysql:host=localhost;dbname=db_76865732";
-    $user = "76865732";
-    $pass = "76865732";
+    // $connString = "mysql:host=localhost;dbname=db_76865732";
+    // $user = "76865732";
+    // $pass = "76865732";
 
-    $pdo = new PDO($connString, $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // $pdo = new PDO($connString, $user, $pass);
+    // $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    include 'connection.php';
+    $pdo = getConnection();
 
 
     // get the email and password from the form submission and store them in variables 
