@@ -11,7 +11,7 @@
   <body>
     <header>
       <?php $IPATH = $_SERVER["DOCUMENT_ROOT"]."/assets/php/"; include ($IPATH."header.php"); ?>
-      <div class="header-wrapper">
+      <!-- <div class="header-wrapper">
         <a href="landing.html"><h1 id="logo">PANTRY</h1></a>
 
         <div id="search"><input type="text" placeholder="Search" /></div>
@@ -24,7 +24,7 @@
             <h2>Log In</h2>
           </div>
         </a>
-      </div>
+      </div> -->
     </header>
     <main>
       <div class="body-container">
