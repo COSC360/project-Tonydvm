@@ -7,9 +7,6 @@ try{
     $pdo = new PDO($connString, $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // include 'connection.php';
-    // $pdo = getConnection();
-
 
     // get the email and password from the form submission and store them in variables 
     $email = $_GET['email'];
@@ -30,11 +27,10 @@ try{
         // create session state and redirect to landing page
         session_start();
         $_SESSION['user'] = $userId;
-        header("Location: landing.html?message=Login%20Successful");
+        header("Location: landing.php");
     }
     else{
-        header("Location: login.html");
-        header("Location: login.html?message=Login%20Unsuccessful");
+        header("Location: login.php");
     }
 }
 catch (PDOException $e){
