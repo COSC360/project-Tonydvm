@@ -8,16 +8,11 @@
   <body>
     <header>
       <div class="header-wrapper">
-        <a href="landing.html"><h1 id="logo">PANTRY</h1></a>
+        <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
 
         <div id="search">
           <input type="text" placeholder="Search" />
         </div>
-        <a href="preferences.html" id="preferences">
-          <div class="button">
-            <h2>Preferences</h2>
-          </div>
-        </a>
       </div>
     </header>
     <div class="main">

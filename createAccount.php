@@ -120,13 +120,13 @@
       $response["success"] = true;
 
       if ($statement->rowCount() > 0){
-        // create session state and redirect to landing page
         session_start();
         $_SESSION['user'] = $userId;
-        header("Location: landing.php);
+        header("Location: landing.php");
+
       }
       else{
-        $response["success"] = false;
+        
       }
 
       echo json_encode($response);
@@ -135,5 +135,6 @@
       die($e->getMessage());
     }
     ?>
+
   </body>
 </html>
