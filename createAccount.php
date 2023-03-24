@@ -3,28 +3,6 @@
   <head>
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/forms.css" />
-    <!-- <script>
-      function validateForm() {
-        let x = document.forms["signUpForm"]["email"].value;
-        let y = document.forms["signUpForm"]["password"].value;
-        if (x == "") {
-          alert("Email must be filled out");
-          return false;
-        }
-        if (x.contains("@") == false) {
-          alert("Email must be valid");
-          return false;
-        }
-        if (y == "") {
-          alert("Password must be filled out");
-          return false;
-        }
-        if (y.length < 8) {
-          alert("Password must be at least 8 characters");
-          return false;
-        }
-      }
-    </script> -->
   </head>
   <header>
     <div class="header-wrapper">
@@ -37,7 +15,7 @@
       <form
         class="account-form"
         name="signUpForm"
-        onsubmit="return validateForm()"
+        onsubmit="landing.html"
         method="post"
       >
         <div class="form-header">
@@ -61,13 +39,12 @@
             required
           />
         </div>
-
         <div class="form-group">
           <input
             type="text"
-            name="city"
+            name="username"
             class="form-input"
-            placeholder="city"
+            placeholder="username"
             required
           />
         </div>
@@ -84,10 +61,19 @@
         </div>
         <div class="form-group">
           <input
+            type="text"
+            name="city"
+            class="form-input"
+            placeholder="city"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <input
             type="password"
             name="password"
             class="form-input"
-            placeholder="password"
+            placeholder="password (minimum 8 characters))"
             required
             minlength="8"
           />
@@ -99,5 +85,20 @@
         </div>
       </form>
     </div>
+    <?php 
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $firstName = $_POST['firstName'];
+    $lastName = $_POST['lastName'];
+    $city = $_POST['city'];
+    $statement = mysqli_prepare($conn, "INSERT INTO users (email, password, firstName, lastName, city) VALUES (?, ?, ?, ?, ?)");
+    mysqli_stmt_bind_param($statement, "sssss", $email, $password, $firstName, $lastName, $city);
+    mysqli_stmt_execute($statement);
+
+    $response = array();
+    $response["success"] = true;
+
+    echo json_encode($response);
+    ?>
   </body>
 </html>
