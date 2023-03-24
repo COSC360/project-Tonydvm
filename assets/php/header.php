@@ -9,7 +9,6 @@
   }
 ?>
 
-<html>
 <div class="header-wrapper" id="guest">
   <a href="landing.html"><h1 id="logo">PANTRY</h1></a>
 
@@ -35,4 +34,3 @@
     </div>
   </a>
 </div>
-</html>
