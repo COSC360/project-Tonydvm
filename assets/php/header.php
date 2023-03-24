@@ -12,7 +12,11 @@
 <div class="header-wrapper" id="guest">
   <a href="landing.html"><h1 id="logo">PANTRY</h1></a>
 
-  <div id="search"><input type="text" placeholder="Search" /></div>
+  <a href="search.html" id="searchPage">
+          <div class="button">
+            <h2>Search</h2>
+          </div>
+  </a>
 
   <a href="createAccount.html" id="createAccount"> <h2>Create Account</h2></a>
   <a href="login.html" id="login">

@@ -48,6 +48,7 @@
       ?>
     </header>
     <main>
+      
       <div class="body-container">
         <div class="left-container">
           <h2>Low Priced Items</h2>
