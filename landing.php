@@ -21,7 +21,7 @@
           <div id="search">
             <input type="text" placeholder="Search" />
           </div>
-          <a href="preferences.html" id="preferences">
+          <a href="preferences.php" id="preferences">
           <div class="button">
           <h2>Preferences</h2>
         </div>
