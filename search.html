@@ -4,8 +4,28 @@
   <title>Search Results</title>
   <link rel="stylesheet" href="css/reset.css" />
   <link rel="stylesheet" href="css/landing.css">
-  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('form').on('submit', function(event) {
+        event.preventDefault();
+        
+        var formData = $(this).serialize();
 
+        $.ajax({
+          url: 'search_results.php',
+          type: 'GET',
+          data: formData,
+          success: function(data) {
+            $('#search-results').html(data);
+          },
+          error: function() {
+            alert('Error fetching search results.');
+          }
+        });
+      });
+    });
+  </script>
 </head>
 <body>
     <header>
@@ -25,10 +45,11 @@
     
     <main>
       <h1>Search Results</h1>
-      <form method="post" action="search_results.php">
+      <form method="get" id="search-form">
         <label for="item-name">Item Name:</label>
         <input type="text" id="item-name" name="item-name">
 
+        /*
         <label for="store">Store:</label>
         <select id="store" name="store">
           <option value="">Any Store</option>
@@ -53,11 +74,12 @@
           <option value="Ottawa">Ottawa</option>
           <option value="Quebec City">Quebec City</option>
         </select>
+        
 
         <button type="submit">Search</button>
 
-        <div id="suggestions">
-
+        <div id="search-results">
+          <!-- Search results will be displayed here -->
         </div>
 
       </form>
