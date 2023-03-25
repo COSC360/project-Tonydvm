@@ -90,7 +90,7 @@
 
 
           // Check if there are any results
-          if ($result->num_rows > 0) {
+          if ($result->rowCount() > 0) {
             echo "<table>";
             echo "<tr><th>Image</th><th>ID</th><th>Name</th><th>Price($CAN)</th></tr>";
             // Output data of each row
