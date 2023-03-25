@@ -62,7 +62,7 @@
       <?php
       // Connect to the database
       $host = 'localhost';
-      $user = 'username';
+      $user = '76865732';
       $password = '76865732';
       $database = 'db_76865732';
       $conn = new mysqli($host, $user, $password, $database);
