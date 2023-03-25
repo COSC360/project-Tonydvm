@@ -8,19 +8,40 @@
   
 </head>
   <body>
-    <header>
-          <div class="header-wrapper">
-            <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
-            <a href="createAccount.php" id="createAccount"
-              ><h2>Create Account</h2></a
-            >
-            <a href="login.html" id="logIn">
-              <div class="button">
-                <h2>Log In</h2>
-              </div>
-            </a>
-          </div>
-    </header>
+  <header>
+    <!-- php dynamic header changes based on session user  -->
+    <?php
+    session_start();
+    if (isset($_SESSION['user'])) {
+      echo '
+        <div class="header-wrapper" id="logged">
+        <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
+        <div id="search">
+        <input type="text" placeholder="Search" />
+        </div>
+        <a href="preferences.php" id="preferences">
+        <div class="button">
+        <h2>Preferences</h2>
+        </div>
+        </a>
+        </div>
+        ';
+    } else {
+      echo '
+        <div class="header-wrapper" id="guest">
+        <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
+        <div id="search"><input type="text" placeholder="Search" /></div>
+        <a href="createAccount.php" id="createAccount"> <h2>Create Account</h2></a>
+        <a href="login.html" id="login">
+        <div class="button">
+        <h2>Log In</h2>
+        </div>
+        </a>
+        </div>
+        ';
+    }
+    ?>
+  </header>
 
     <main>
       <h1>Search Results</h1>
