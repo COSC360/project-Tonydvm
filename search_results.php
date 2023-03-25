@@ -4,7 +4,7 @@
   <title>Search Results</title>
   <link rel="stylesheet" href="css/reset.css" />
   <link rel="stylesheet" href="css/landing.css">
-  <script src="js/livesearch.js"></script>
+  
   
 </head>
   <body>
@@ -86,9 +86,10 @@
       JOIN grocery_item_prices ON grocery_items.id = grocery_item_prices.grocery_item_id
       JOIN stores ON grocery_item_prices.store_id = stores.id
       WHERE grocery_items.name LIKE ?
-      AND stores.name = ?
-      AND stores.city = ?
+      AND (stores.city = ? OR ? = '')
+      AND (stores.id = ? OR ? = '')
       ORDER BY grocery_items.name ASC";
+
 
       $stmt = $conn->prepare($sql);
       $stmt->bind_param('sss', $search_query, $selected_store, $selected_city);
