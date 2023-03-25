@@ -8,44 +8,23 @@
   
 </head>
   <body>
-  <header>
-    <!-- php dynamic header changes based on session user  -->
-    <?php
-    session_start();
-    if (isset($_SESSION['user'])) {
-      echo '
-        <div class="header-wrapper" id="logged">
-        <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
-        <div id="search">
-        <input type="text" placeholder="Search" />
-        </div>
-        <a href="preferences.php" id="preferences">
-        <div class="button">
-        <h2>Preferences</h2>
-        </div>
-        </a>
-        </div>
-        ';
-    } else {
-      echo '
-        <div class="header-wrapper" id="guest">
-        <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
-        <div id="search"><input type="text" placeholder="Search" /></div>
-        <a href="createAccount.php" id="createAccount"> <h2>Create Account</h2></a>
-        <a href="login.html" id="login">
-        <div class="button">
-        <h2>Log In</h2>
-        </div>
-        </a>
-        </div>
-        ';
-    }
-    ?>
-  </header>
+    <header>
+          <div class="header-wrapper">
+            <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
+            <a href="createAccount.php" id="createAccount"
+              ><h2>Create Account</h2></a
+            >
+            <a href="login.html" id="logIn">
+              <div class="button">
+                <h2>Log In</h2>
+              </div>
+            </a>
+          </div>
+    </header>
 
     <main>
       <h1>Search Results</h1>
-      <form>
+      <form method="post">
         <label for="item-name">Search for Item Name:</label>
         <input type="text" id="item-name" name="item-name" placeholder="Search for a product...">
         <div id="search-suggestions"></div>
@@ -53,12 +32,14 @@
         <label for="store">Store:</label>
         <select id="store" name="store">
           <option value="">Any Store</option>
-          <option value="1">Save-On Foods</option>
-          <option value="2">Canadian Supermarket</option>
-          <option value="3">Coscto</option>
-          <option value="4">Walmart</option>
-          <option value="5">Independent Grocer</option>
+          <option value="Save-On Foods">Save-On Foods</option>
+          <option value="Canadian Supermarket">Canadian Supermarket</option>
+          <option value="Costco">Costco</option>
+          <option value="Walmart">Walmart</option>
+          <option value="Independent Grocer">Independent Grocer</option>
         </select>
+
+
 
         <label for="location">Location:</label>
         <select id="location" name="location">
@@ -74,62 +55,69 @@
         </select>
 
         <button type="submit">Search</button>
+
+        <div id="search-results">
+        <!-- Search results will be displayed here -->
+        </div>
       </form>
 
       <div class="body-container">
-        <h2>Search Results</h2>
-        <?php
-        try {
-          $connString = "mysql:host=localhost;dbname=db_76865732";
-          $user = "76865732";
-          $pass = "76865732";
+      <?php
+      // Connect to the database
+      $host = 'localhost';
+      $user = '76865732';
+      $password = '76865732';
+      $database = 'db_76865732';
+      $conn = new mysqli($host, $user, $password, $database);
 
-          $pdo = new PDO($connString, $user, $pass);
-          $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      // Check connection
+      if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+      }
 
+      // Get search query and selected store and city from form submission
+      $search_query = '%' . $_POST['item-name'] . '%';
+      $selected_store = $_POST['store'];
+      $selected_city = $_POST['location'];
 
-          // Get search query and selected store and city from form submission
-          $search_query = '%' . $_POST['item-name'] . '%';
-          $selected_store = $_POST['store'];
-          $selected_city = $_POST['location'];
+      // Build and execute SQL query using prepared statements
+      $sql = "SELECT grocery_items.id, grocery_items.name, grocery_items.description, grocery_items.image_url, stores.name AS store_name, grocery_item_prices.price
+      FROM grocery_items
+      JOIN grocery_item_prices ON grocery_items.id = grocery_item_prices.grocery_item_id
+      JOIN stores ON grocery_item_prices.store_id = stores.id
+      WHERE grocery_items.name LIKE ?
+      AND stores.city = ?
+      AND stores.name = ?
+      ORDER BY grocery_items.name ASC";
 
-          // Build and execute SQL query using prepared statements
-          $sql = "SELECT grocery_items.id, grocery_items.name, grocery_items.description, grocery_items.image_url, stores.name AS store_name, grocery_item_prices.price
-          FROM grocery_items
-          JOIN grocery_item_prices ON grocery_items.id = grocery_item_prices.grocery_item_id
-          JOIN stores ON grocery_item_prices.store_id = stores.id
-          WHERE grocery_items.name LIKE ?
-          AND stores.city = ?
-          AND stores.name = ?
-          ORDER BY grocery_items.name ASC";
+      $stmt = $conn->prepare($sql);
+      $stmt->bind_param('sss', $search_query, $selected_city, $selected_store);
+      $stmt->execute();
 
-          $stmt = $pdo->prepare($sql);
-          $stmt->bind_param('sss', $search_query, $selected_city, $selected_store);
-          $stmt->execute();
+      $result = $stmt->get_result();
 
-          $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-          // Check if there are any results
-          if ($result->rowCount() > 0) {
-            echo "<table>";
-            echo "<tr><th>Image</th><th>ID</th><th>Name</th><th>Price($CAN)</th></tr>";
-            // Output data of each row
-            while($row = $result) {
-              echo "<tr>";
-              echo "<td>" . $row["image_url"]. "</td>";
-              echo "<td>" . $row["id"]. "</td>";
-              echo "<td><a href='product_details.php?id=" . $row['id'] . "'>" . $row['name'] . "</a></td>";
-              echo "<td>" . $row["price"]. "</td>";
-              echo "</tr>";
-            }
-            echo "</table>";
-          }
-        } catch (PDOException $e) {
-            die($e->getMessage());
+      // Check if there are any results
+      if ($result->num_rows > 0) {
+        echo "<table>";
+        echo "<tr><th>Image</th><th>ID</th><th>Name</th><th>Price($CAN)</th></tr>";
+        // Output data of each row
+        while($row = $result->fetch_assoc()) {
+          echo "<tr>";
+          echo "<td>" . $row["image_url"]. "</td>";
+          echo "<td>" . $row["id"]. "</td>";
+          echo "<td><a href='product_details.php?id=" . $row['id'] . "'>" . $row['name'] . "</a></td>";
+          echo "<td>" . $row["price"]. "</td>";
+          echo "</tr>";
         }
+        echo "</table>";
+      } else {
+        echo "No results found.";
+      }
 
-        ?>
+      // Close connection
+      $stmt->close();
+      $conn->close();
+      ?>
       </div>
     </main>
   </body>
