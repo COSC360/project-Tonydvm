@@ -4,22 +4,6 @@
   <title>Search Results</title>
   <link rel="stylesheet" href="css/reset.css" />
   <link rel="stylesheet" href="css/landing.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-    $(document).ready(function() {
-      $("#search-form").on("submit", function(event) {
-        event.preventDefault();
-        $.ajax({
-          url: "search_results.php",
-          type: "POST",
-          data: $(this).serialize(),
-          success: function(data) {
-            $("#search-results").html(data);
-          }
-        });
-      });
-    });
-  </script>
 </head>
 <body>
     <header>
@@ -39,7 +23,7 @@
     
     <main>
       <h1>Search Results</h1>
-      <form method="get" id="search-form">
+      <form method="post" action="search_results.php">
         <label for="item-name">Item Name:</label>
         <input type="text" id="item-name" name="item-name">
 
