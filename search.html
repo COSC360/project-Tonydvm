@@ -7,20 +7,14 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     $(document).ready(function() {
-      $('form').on('submit', function(event) {
+      $("#search-form").on("submit", function(event) {
         event.preventDefault();
-        
-        var formData = $(this).serialize();
-
         $.ajax({
-          url: 'search_results.php',
-          type: 'GET',
-          data: formData,
+          url: "search_results.php",
+          type: "POST",
+          data: $(this).serialize(),
           success: function(data) {
-            $('#search-results').html(data);
-          },
-          error: function() {
-            alert('Error fetching search results.');
+            $("#search-results").html(data);
           }
         });
       });
@@ -78,11 +72,11 @@
 
         <button type="submit">Search</button>
 
-        <div id="search-results">
-          <!-- Search results will be displayed here -->
-        </div>
-
       </form>
+
+      <div id="search-results">
+        <!-- Search results will be displayed here -->
+      </div>
 
     </main>
 </body>

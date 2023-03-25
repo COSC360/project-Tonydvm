@@ -12,9 +12,10 @@ if ($conn->connect_error) {
 }
 
 // Get search query and selected store and city from the form submission
-$search_query = '%' . $_GET['item-name'] . '%';
-$selected_store = $_GET['store'];
-$selected_city = $_GET['location'];
+// Get search query and selected store and city from form submission
+$search_query = '%' . $_POST['item-name'] . '%';
+$selected_store = $_POST['store'];
+$selected_city = $_POST['location'];
 
 // Build and execute SQL query using prepared statements
 $sql = "SELECT grocery_items.id, grocery_items.name, grocery_items.description, grocery_items.image_url, stores.name AS store_name, grocery_item_prices.price
