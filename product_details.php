@@ -3,7 +3,7 @@
 <head>
   <title>Product Details</title>
   <link rel="stylesheet" href="css/reset.css" />
-    <link rel="stylesheet" href="css/landing.css" />
+  <link rel="stylesheet" href="css/landing.css" />
 </head>
 <body>
     <header>
@@ -27,11 +27,11 @@
       $user = '76865732';
       $password = '76865732';
       $database = 'db_76865732';
-      $conn = mysqli_connect($host, $user, $password, $database);
+      $conn = new mysqli($host, $user, $password, $database);
 
       // Check connection
-      if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
+      if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
       }
 
       // Build query
@@ -39,25 +39,26 @@
               FROM grocery_items
               INNER JOIN grocery_item_prices ON grocery_items.id = grocery_item_prices.grocery_item_id
               INNER JOIN stores ON grocery_item_prices.store_id = stores.id
-              WHERE grocery_items.id = {$_GET['id']}";
-      
-      // Execute query
-      $result = mysqli_query($conn, $sql);
+              WHERE grocery_items.id = ?";
+
+      // Prepare and execute query
+      $stmt = $conn->prepare($sql);
+      $stmt->bind_param('i', $_GET['id']);
+      $stmt->execute();
+      $result = $stmt->get_result();
 
       // Check for results
-      if (mysqli_num_rows($result) > 0) {
+      if ($result->num_rows > 0) {
         // Display product details
-        $row = mysqli_fetch_assoc($result);
+        $row = $result->fetch_assoc();
         echo "<div class='product-details'>";
         echo "<img src='" . $row["image_url"] . "' alt='" . $row["name"] . "'>";
         echo "<h2>" . $row["name"] . "</h2>";
-        echo "<p>ID: " . $row["id"] . "</p>";
+        echo "<p>ID: " . $_GET['id'] . "</p>";
         echo "<p>Description: " . $row["description"] . "</p>";
         echo "<p>Store: " . $row["store_name"] . "</p>";
         echo "<p>Price($CAN): " . $row["price"] . "</p>";
         echo "</div>";
-    
-        
 
       } else {
         // No results found
@@ -65,7 +66,8 @@
       }
 
       // Close connection
-      mysqli_close($conn);
+      $stmt->close();
+      $conn->close();
     ?>
     <div class="back-link">
       <a href="search_results.php">Back to Search Results</a>
@@ -73,3 +75,4 @@
   </main>
 </body>
 </html>
+
