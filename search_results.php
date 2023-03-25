@@ -35,8 +35,8 @@
           <option value="1">Save-On Foods</option>
           <option value="2">Canadian Supermarket</option>
           <option value="3">Coscto</option>
-          <option value="3">Walmart</option>
-          <option value="3">Independent Grocer</option>
+          <option value="4">Walmart</option>
+          <option value="5">Independent Grocer</option>
         </select>
 
         <label for="location">Location:</label>
@@ -45,76 +45,71 @@
           <option value="Toronto">Toronto</option>
           <option value="Vancouver">Vancouver</option>
           <option value="Montreal">Montreal</option>
-          <option value="Montreal">Calgary</option>
-          <option value="Montreal">Kelowna</option>
-          <option value="Montreal">Edmonton</option>
-          <option value="Montreal">Ottawa</option>
-          <option value="Montreal">Quebec City</option>
+          <option value="Calgary">Calgary</option>
+          <option value="Kelowna">Kelowna</option>
+          <option value="Edmonton">Edmonton</option>
+          <option value="Ottawa">Ottawa</option>
+          <option value="Quebec City">Quebec City</option>
         </select>
 
         <button type="submit">Search</button>
-
-        <div id="search-results">
-        <!-- Search results will be displayed here -->
-        </div>
       </form>
 
-      <?php
-      // Connect to the database
-      $host = 'localhost';
-      $user = '76865732';
-      $password = '76865732';
-      $database = 'db_76865732';
-      $conn = new mysqli($host, $user, $password, $database);
+      <div class="body-container">
+        <h2>Search Results</h2>
+        <?php
+        try {
+          $connString = "mysql:host=localhost;dbname=db_76865732";
+          $user = "76865732";
+          $pass = "76865732";
 
-      // Check connection
-      if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-      }
+          $pdo = new PDO($connString, $user, $pass);
+          $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-      // Get search query and selected store and city from form submission
-      $search_query = '%' . $_POST['item-name'] . '%';
-      $selected_store = $_POST['store'];
-      $selected_city = $_POST['location'];
 
-      // Build and execute SQL query using prepared statements
-      $sql = "SELECT grocery_items.id, grocery_items.name, grocery_items.description, grocery_items.image_url, stores.name AS store_name, grocery_item_prices.price
-      FROM grocery_items
-      JOIN grocery_item_prices ON grocery_items.id = grocery_item_prices.grocery_item_id
-      JOIN stores ON grocery_item_prices.store_id = stores.id
-      WHERE grocery_items.name LIKE ?
-      AND stores.city = ?
-      AND stores.name = ?
-      ORDER BY grocery_items.name ASC";
+          // Get search query and selected store and city from form submission
+          $search_query = '%' . $_POST['item-name'] . '%';
+          $selected_store = $_POST['store'];
+          $selected_city = $_POST['location'];
 
-      $stmt = $conn->prepare($sql);
-      $stmt->bind_param('sss', $search_query, $selected_city, $selected_store);
-      $stmt->execute();
+          // Build and execute SQL query using prepared statements
+          $sql = "SELECT grocery_items.id, grocery_items.name, grocery_items.description, grocery_items.image_url, stores.name AS store_name, grocery_item_prices.price
+          FROM grocery_items
+          JOIN grocery_item_prices ON grocery_items.id = grocery_item_prices.grocery_item_id
+          JOIN stores ON grocery_item_prices.store_id = stores.id
+          WHERE grocery_items.name LIKE ?
+          AND stores.city = ?
+          AND stores.name = ?
+          ORDER BY grocery_items.name ASC";
 
-      $result = $stmt->get_result();
+          $stmt = $pdo->prepare($sql);
+          $stmt->bind_param('sss', $search_query, $selected_city, $selected_store);
+          $stmt->execute();
 
-      // Check if there are any results
-      if ($result->num_rows > 0) {
-        echo "<table>";
-        echo "<tr><th>Image</th><th>ID</th><th>Name</th><th>Price($CAN)</th></tr>";
-        // Output data of each row
-        while($row = $result->fetch_assoc()) {
-          echo "<tr>";
-          echo "<td>" . $row["image_url"]. "</td>";
-          echo "<td>" . $row["id"]. "</td>";
-          echo "<td><a href='product_details.php?id=" . $row['id'] . "'>" . $row['name'] . "</a></td>";
-          echo "<td>" . $row["price"]. "</td>";
-          echo "</tr>";
+          $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+          // Check if there are any results
+          if ($result->num_rows > 0) {
+            echo "<table>";
+            echo "<tr><th>Image</th><th>ID</th><th>Name</th><th>Price($CAN)</th></tr>";
+            // Output data of each row
+            while($row = $result) {
+              echo "<tr>";
+              echo "<td>" . $row["image_url"]. "</td>";
+              echo "<td>" . $row["id"]. "</td>";
+              echo "<td><a href='product_details.php?id=" . $row['id'] . "'>" . $row['name'] . "</a></td>";
+              echo "<td>" . $row["price"]. "</td>";
+              echo "</tr>";
+            }
+            echo "</table>";
+          }
+        } catch (PDOException $e) {
+            die($e->getMessage());
         }
-        echo "</table>";
-      } else {
-        echo "No results found.";
-      }
 
-      // Close connection
-      $stmt->close();
-      $conn->close();
-      ?>
+        ?>
+      </div>
     </main>
   </body>
 </html>
