@@ -7,6 +7,23 @@
   <link rel="stylesheet" href="css/landing.css">
   <script src="js/livesearch.js"></script>
 
+  <script>
+    function showHint(str) {
+      if (str.length == 0) {
+        document.getElementById("txtHint").innerHTML = "";
+        return;
+      } else {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("txtHint").innerHTML = this.responseText;
+          }
+        };
+        xmlhttp.open("GET", "gethint.php?q=" + str, true);
+        xmlhttp.send();
+      }
+    }
+  </script>
 </head>
 
 <body>
@@ -18,9 +35,6 @@
       echo '
         <div class="header-wrapper" id="logged">
         <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
-        <div id="search">
-        
-        </div>
         <a href="preferences.php" id="preferences">
         <div class="button">
         <h2>Preferences</h2>
@@ -32,10 +46,6 @@
       echo '
         <div class="header-wrapper" id="guest">
         <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
-        <div id="search">
-
-
-        </div>
         <a href="createAccount.php" id="createAccount"> <h2>Create Account</h2></a>
         <a href="login.html" id="login">
         <div class="button">
@@ -49,9 +59,10 @@
   </header>
   <main>
     <h1>Search Results</h1>
-    <form method="post" class="search-form">
+    <form method="post" class="search-form" action="">
       <label for="item-name">Search for Item Name:</label>
-      <input type="text" id="item-name" name="item-name" placeholder="Search for a product...">
+      <input type="text" id="item-name" name="item-name" placeholder="Search for a product..."
+        onkeyup="showHint(this.value)">
       <div id="search-suggestions"></div>
 
       <label for="store">Store:</label>
@@ -85,6 +96,7 @@
         <!-- Search results will be displayed here -->
       </div>
     </form>
+    <p>Suggestions: <span id="txtHint"></span></p>
 
     <div class="body-container">
       <?php
@@ -127,7 +139,7 @@
       // Check if there are any results
       if ($result->num_rows > 0) {
         echo "<table>";
-        echo "<tr><th>Image</th><th>ID</th><th>Name</th><th>Price($CAN)</th></tr>";
+        echo "<tr><th>Image</th><th>ID</th><th>Name</th><th>Price</th></tr>";
         // Output data of each row
         while ($row = $result->fetch_assoc()) {
           echo "<tr>";
