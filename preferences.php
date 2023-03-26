@@ -38,9 +38,9 @@
       $statement = $pdo->prepare($sql);
       $statement->execute();
 
-      // get image from database user_images table (id, user_id, image_url)
-      $sql = "SELECT image_url FROM user_images WHERE user_id = $user_id";
-      $statement2 = $pdo->prepare($sql);
+      // get image from database user_images table (id, user_id, image_url(varchar))
+      $sql2 = "SELECT image_url FROM user_images WHERE user_id = $user_id";
+      $statement2 = $pdo->prepare($sql2);
       $statement2->execute();
 
       // show image and user info
@@ -48,7 +48,7 @@
         echo '
           <div class="user-info">
             <div class="user-image">
-              <img src="' . $statement2->fetchColumn() . '" alt="user image" />
+              <img src="' . $statement2->fetch()['image_url'] . '" alt="user image">
             </div>
             <div class="user-info-text">
               <h2>' . $row['username'] . '</h2>
