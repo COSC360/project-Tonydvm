@@ -15,14 +15,14 @@ try {
     // sanitize the email and password
     // check for empty email and password
     if (empty($email) || empty($password)) {
-        header("Location: login.php");
+        header("Location: login.html");
     }
     // use trim 
     $email = trim($email);
     $password = trim($password);
     // check for databse value incompatability
     if (strpos($email, "'") !== false || strpos($password, "'") !== false) {
-        header("Location: login.php");
+        header("Location: login.html");
     }
 
 
@@ -56,7 +56,7 @@ try {
         $_SESSION['user'] = $userId;
         header("Location: landing.php");
     } else {
-        header("Location: login.php");
+        header("Location: login.html");
     }
 } catch (PDOException $e) {
     die($e->getMessage());
