@@ -107,3 +107,14 @@ textarea:focus, input:focus{
     color: white;
     margin: 1em;
 }
+
+#spacer {
+    border: 0;
+    padding: 1em;
+    border-radius: 5em;
+    align-items: flex-start;
+    margin-left: auto;
+    margin-right: auto;
+    order: 2;
+    width: max-content;
+}

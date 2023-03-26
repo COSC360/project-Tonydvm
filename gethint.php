@@ -33,7 +33,7 @@ if ($q !== "") {
     $q = strtolower($q);
     $len = strlen($q);
     foreach ($a as $name) {
-        if (stristr($q, substr($name, 0, $len))) {
+        if (str_contains(strtolower($name), $q)) {
             if ($hint === "") {
                 $hint = $name;
             } else {
