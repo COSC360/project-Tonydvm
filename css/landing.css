@@ -55,6 +55,10 @@ a:visited {
     color: white;   
     text-decoration: none;
 }
+a:hover {
+    text-decoration: none;
+    color: blue;
+}
 
 .header-wrapper {
     display: flex;  

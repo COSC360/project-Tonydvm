@@ -49,6 +49,7 @@
     <div class="body-container">
       <div class="left-container">
         <h2>Low Priced Items</h2>
+        <a href="landing.php">item1</a>
         <!-- collect first 10 products from databse under products and display links as a list -->
         <?php
         try {
@@ -82,7 +83,7 @@
       <div class="right-container">
         <h2>Watchlist</h2>
         <ul>
-          <li>Item 1</li>
+          <a href="landing.php"></a>
           <li>Item 2</li>
           <li>Item 3</li>
           <li>Item 4</li>

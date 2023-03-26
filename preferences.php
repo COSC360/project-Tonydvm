@@ -40,8 +40,20 @@
       // extract user info from query result
       $user = $statement->fetch(PDO::FETCH_ASSOC);
 
-      // display user info
-      echo '$user["username"]';
+      // display user info in form fields 
+      $firstName = $user['firstName'];
+      $lastName = $user['lastName'];
+      $email = $user['email'];
+      $password = $user['password'];
+
+      // display user info in form fields
+      echo "<form action='updateUser.php' method='post'>";
+      echo "<input type='text' name='firstName' value='$firstName' />";
+      echo "<input type='text' name='lastName' value='$lastName' />";
+      echo "<input type='text' name='email' value='$email' />";
+      echo "<input type='text' name='password' value='$password' />";
+      echo "<input type='submit' value='Update' />";
+      echo "</form>";
 
     } catch (PDOException $e) {
       die($e->getMessage());
