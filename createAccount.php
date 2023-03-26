@@ -60,6 +60,9 @@
       </div>
       <!-- image upload -->
       <div class="form-group">
+        <label for="image">
+          <h2>Upload Profile Picture</h2>
+        </label>
         <input type="file" name="image" class="form-input" placeholder="image" required />
       </div>
       <button class="form-button" type="submit">Create Account</button>
@@ -165,7 +168,8 @@
 
     echo json_encode($response);
   } catch (PDOException $e) {
-    die($e->getMessage());
+    // alert 
+    echo "Error: " . $e->getMessage();
   }
   ?>
 
