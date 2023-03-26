@@ -106,7 +106,7 @@
     $conn->close();
     ?>
     <div class="back-link">
-      <a href="search_results.php">Back to Search Results</a>
+      <a href="search.html">Back to Search Page</a>
     </div>
   </main>
 </body>
