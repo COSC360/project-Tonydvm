@@ -34,6 +34,20 @@ try {
     // extract user id from the query result
     $userId = $statement->fetchColumn(0);
 
+    // // check if user is an admin
+    // $sql = "SELECT * FROM users WHERE email = ? AND password = ? AND admin = 1";
+    // $statement = $pdo->prepare($sql);
+    // $statement->execute([$email, $password]);
+
+    // // if the user is an admin
+    // if ($statement->rowCount() > 0) {
+    //     header("Location: admin.php");
+    //     // create session state and redirect to admin page
+    //     session_start();
+    //     $_SESSION['user'] = $userId;
+    //     header("Location: landing.php");
+    // }
+
     // if the user exists
     if ($statement->rowCount() > 0) {
         header("Location: landing.php");
