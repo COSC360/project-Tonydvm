@@ -61,7 +61,7 @@
     <h1>Search Results</h1>
     <form method="post" class="search-form" action="">
       <label for="item-name">Search for Item Name:</label>
-      <input type="text" id="item-name" name="item-name" placeholder="Search for a product..."
+      <input type="text" id="item-name" autocomplete="off" name="item-name" placeholder="Search for a product..."
         onkeyup="showHint(this.value)">
       <div id="search-suggestions"></div>
 
