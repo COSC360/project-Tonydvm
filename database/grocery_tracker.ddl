@@ -74,6 +74,17 @@ CREATE TABLE user_reviews (
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (grocery_item_id) REFERENCES grocery_items(id)
 );
+
+CREATE TABLE cart (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  user_id INT(11) NOT NULL,
+  product_id INT(11) NOT NULL,
+  quantity INT(11) NOT NULL DEFAULT 1,
+  PRIMARY KEY (id),
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (product_id) REFERENCES grocery_items(id)
+);
+
 -- Insert sample data into the 'users' table
 INSERT INTO users (username, email, password, role)
 VALUES (
