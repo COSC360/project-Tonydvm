@@ -127,7 +127,7 @@
       // Check if there are any results
       if ($result->num_rows > 0) {
         echo "<table>";
-        echo "<tr><th>Image</th><th>ID</th><th>Name</th><th>Price($CAN)</th></tr>";
+        echo "<tr><th>Image</th><th>ID</th><th>Name</th><th>Price</th></tr>";
         // Output data of each row
         while ($row = $result->fetch_assoc()) {
           echo "<tr>";

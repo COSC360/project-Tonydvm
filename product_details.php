@@ -82,7 +82,7 @@
       echo "<p>ID: " . $_GET['id'] . "</p>";
       echo "<p>Description: " . $row["description"] . "</p>";
       echo "<p>Store: " . $row["store_name"] . "</p>";
-      echo "<p>Price($CAN): " . $row["price"] . "</p>";
+      echo "<p>Price: " . $row["price"] . "</p>";
       echo "</div>";
 
     } else {
