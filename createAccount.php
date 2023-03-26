@@ -145,7 +145,7 @@
     }
     // else use default image
     else {
-      $image = "img/default.png";
+      $image = "img/user_default.png";
     }
 
     // create a query to insert the user into the database
