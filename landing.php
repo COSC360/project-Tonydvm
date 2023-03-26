@@ -57,7 +57,7 @@
   <main>
     <div class="body-container">
       <div class="left-container">
-        <h2>Low Priced Items</h2>
+        <h2>Items</h2>
         <!-- collect first 10 products from databse under products and display links as a list -->
         <?php
         try {
@@ -87,34 +87,34 @@
           die($e->getMessage());
         }
         ?>
-        <div class="right-container">
-          <h2>Watchlist</h2>
-          <ul>
-            <?php
-            if (isset($_SESSION['user'])) {
-              $user_id = $_SESSION['user']['id'];
-              $sql = "SELECT grocery_items.id, grocery_items.name
+      </div>
+      <div class="right-container">
+        <h2>Watchlist</h2>
+        <ul>
+          <?php
+          if (isset($_SESSION['user'])) {
+            $user_id = $_SESSION['user']['id'];
+            $sql = "SELECT grocery_items.id, grocery_items.name
                     FROM cart
                     INNER JOIN grocery_items ON cart.product_id = grocery_items.id
                     WHERE cart.user_id = ?";
-              $stmt = $conn->prepare($sql);
-              $stmt->bind_param('i', $user_id);
-              $stmt->execute();
-              $result = $stmt->get_result();
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param('i', $user_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
-              if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                  echo '<li><a href="product_details.php?id=' . $row["id"] . '">' . $row["name"] . '</a></li>';
-                }
-              } else {
-                echo '<li>No items in watchlist.</li>';
+            if ($result->num_rows > 0) {
+              while ($row = $result->fetch_assoc()) {
+                echo '<li><a href="product_details.php?id=' . $row["id"] . '">' . $row["name"] . '</a></li>';
               }
             } else {
-              echo '<li>Please <a href="login.html">log in</a> to view your watchlist.</li>';
+              echo '<li>No items in watchlist.</li>';
             }
-            ?>
-          </ul>
-        </div>
+          } else {
+            echo '<li>Please <a href="login.html">log in</a> to view your watchlist.</li>';
+          }
+          ?>
+        </ul>
       </div>
     </div>
   </main>
