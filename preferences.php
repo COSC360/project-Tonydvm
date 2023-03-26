@@ -48,12 +48,12 @@
         echo '
           <div class="user-info">
             <div class="user-image">
-              <img src="' . $statement2->fetch()['image_url'] . '" alt="user image">
+              <img src="' . $statement2->fetchColumn() . '" alt="user image" width="500" />
             </div>
             <div class="user-info-text">
-              <h2>' . $row['username'] . '</h2>
-              <h3>' . $row['email'] . '</h3>
-              <h3>' . $row['password'] . '</h3>
+              <h2> User Name: ' . $row['username'] . '</h2>
+              <h2> Email: ' . $row['email'] . '</h2>
+              <h2> Password: ' . $row['password'] . '</h2>
             </div>
           </div>
           ';

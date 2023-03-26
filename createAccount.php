@@ -5,38 +5,20 @@
   <link rel="stylesheet" href="css/reset.css" />
   <link rel="stylesheet" href="css/forms.css" />
 </head>
-<header>
-  <div class="header-wrapper">
-    <a href="landing.php">
-      <h1 id="logo">PANTRY</h1>
-    </a>
-  </div>
-</header>
 
 <body>
+  <header>
+    <div class="header-wrapper">
+      <a href="landing.php">
+        <h1 id="logo">PANTRY</h1>
+      </a>
+    </div>
+  </header>
   <div class="wrap">
     <form class="account-form" name="signUpForm" method="post" action="createAccount.php">
       <div class="form-header">
         <h2>Create an Account</h2>
       </div>
-      <!-- <div class="form-group">
-          <input
-            type="text"
-            name="firstName"
-            class="form-input"
-            placeholder="first name"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <input
-            type="text"
-            name="lastName"
-            class="form-input"
-            placeholder="last name"
-            required
-          />
-        </div> -->
       <div class="form-group">
         <input type="text" name="username" class="form-input" placeholder="username" required />
       </div>
@@ -45,25 +27,18 @@
           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
           oninvalid="this.setCustomValidity('Please enter a valid email address')" />
       </div>
-      <!-- <div class="form-group">
-          <input
-            type="text"
-            name="city"
-            class="form-input"
-            placeholder="city"
-            required
-          />
-        </div> -->
       <div class="form-group">
         <input type="password" name="password" class="form-input" placeholder="password (minimum 8 characters)" required
           minlength="8" />
       </div>
-      <!-- image upload -->
       <div class="form-group">
         <label for="image">
           <h2>Upload Profile Picture</h2>
         </label>
-        <input type="file" name="image" class="form-input" placeholder="image" required />
+        <br />
+        <p style="color:black"> if you don't upload a picture, a default one will be used </p>
+        <br />
+        <input type="file" name="image" class="form-input" placeholder="image" />
       </div>
       <button class="form-button" type="submit">Create Account</button>
       <div class="form-footer">
@@ -73,25 +48,17 @@
   </div>
   <script>
     // javascript validation
-    // check that file size is less than 1MB
-    var fileInput = document.querySelector('input[type="file"]');
-    fileInput.onchange = function () {
-      if (fileInput.files.length > 0) {
-        var file = fileInput.files[0];
-        if (file.size > 1024 * 1024) {
-          alert("File is too big!");
-          fileInput.value = "";
-        }
-      }
-    };
 
-    // check that image is a jpg, png, or gif
+    // check if an image was uploaded
     var fileInput = document.querySelector('input[type="file"]');
     fileInput.onchange = function () {
       if (fileInput.files.length > 0) {
         var file = fileInput.files[0];
         if (file.type != "image/jpeg" && file.type != "image/png" && file.type != "image/gif") {
           alert("File is not an image!");
+          fileInput.value = "";
+        } else if (file.size > 1024 * 1024) {
+          alert("File is too big!");
           fileInput.value = "";
         }
       }
@@ -142,10 +109,43 @@
     $password = $_POST['password'];
     $image = $_POST['image'];
 
-    // verify size of image is less than 1MB
-    if ($_FILES["image"]["size"] > 1000000) {
-      echo "Sorry, your file is too large.";
-      $uploadOk = 0;
+    // check if image was uploaded
+    if (isset($_FILES["image"])) {
+      $target_dir = "uploads/";
+      $target_file = $target_dir . basename($_FILES["image"]["name"]);
+      $uploadOk = 1;
+      $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+      // Check file size
+      if ($_FILES["image"]["size"] > 500000) {
+        echo "Sorry, your file is too large.";
+        $uploadOk = 0;
+      }
+
+      // Allow certain file formats
+      if (
+        $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+        && $imageFileType != "gif"
+      ) {
+        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        $uploadOk = 0;
+      }
+
+      // Check if $uploadOk is set to 0 by an error
+      if ($uploadOk == 0) {
+        echo "Sorry, your file was not uploaded.";
+        // if everything is ok, try to upload file
+      } else {
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+          echo "The file " . htmlspecialchars(basename($_FILES["image"]["name"])) . " has been uploaded.";
+        } else {
+          echo "Sorry, there was an error uploading your file.";
+        }
+      }
+    }
+    // else use default image
+    else {
+      $image = "img/user_default.png";
     }
 
     // create a query to insert the user into the database

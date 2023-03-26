@@ -55,10 +55,9 @@
     ?>
   </header>
   <main>
-
     <div class="body-container">
       <div class="left-container">
-        <h2>Low Priced Items</h2>
+        <h2>Items</h2>
         <!-- collect first 10 products from databse under products and display links as a list -->
         <?php
         try {
@@ -88,6 +87,7 @@
           die($e->getMessage());
         }
         ?>
+      </div>
       <div class="right-container">
         <h2>Watchlist</h2>
         <ul>
@@ -116,8 +116,7 @@
           ?>
         </ul>
       </div>
-
-
+    </div>
   </main>
 </body>
 
