@@ -33,13 +33,13 @@
       session_start();
       $user_id = $_SESSION['user'];
 
-      // get username, email, and password from database user table (id,username,email,password,role)
-      $sql = "SELECT username, email, password FROM user WHERE id = $user_id";
+      // get username, email, and password from database users table (id,username,email,password,role)
+      $sql = "SELECT username, email, password FROM users WHERE id = $user_id";
       $statement = $pdo->prepare($sql);
       $statement->execute();
 
-      // get image from database user_image table (id, user_id, image_url)
-      $sql = "SELECT image_url FROM user_image WHERE user_id = $user_id";
+      // get image from database user_images table (id, user_id, image_url)
+      $sql = "SELECT image_url FROM user_images WHERE user_id = $user_id";
       $statement2 = $pdo->prepare($sql);
       $statement2->execute();
 
