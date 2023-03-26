@@ -100,6 +100,17 @@
       $selected_city = $_POST['location'];
       $selected_store = $_POST['store'];
 
+      // trim whitespace from search query
+      $search_query = trim($search_query);
+
+      // check if location or store is empty
+      if ($selected_city == '') {
+        $selected_city = 'Any Location';
+      }
+      if ($selected_store == '') {
+        $selected_store = 'Any Store';
+      }
+
 
       // Build and execute SQL query using prepared statements
       $sql = "SELECT grocery_items.id, grocery_items.name, grocery_items.description, grocery_items.image_url, stores.name AS store_name, grocery_item_prices.price

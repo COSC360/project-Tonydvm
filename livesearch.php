@@ -24,32 +24,9 @@ $search_query = filter_var($search_query, FILTER_SANITIZE_STRING);
 // use trim
 $search_query = trim($search_query);
 
-// check if store and city are selected
-if ($selected_store == '' && $selected_city == '') {
-  $sql = "SELECT grocery_items.id, grocery_items.name, grocery_items.description, grocery_items.image_url, stores.name AS store_name, grocery_item_prices.price
-  FROM grocery_items
-  JOIN grocery_item_prices ON grocery_items.id = grocery_item_prices.grocery_item_id
-  JOIN stores ON grocery_item_prices.store_id = stores.id
-  WHERE grocery_items.name LIKE ?
-  ORDER BY grocery_items.name ASC";
-} else if ($selected_store == '') {
-  $sql = "SELECT grocery_items.id, grocery_items.name, grocery_items.description, grocery_items.image_url, stores.name AS store_name, grocery_item_prices.price
-  FROM grocery_items
-  JOIN grocery_item_prices ON grocery_items.id = grocery_item_prices.grocery_item_id
-  JOIN stores ON grocery_item_prices.store_id = stores.id
-  WHERE grocery_items.name LIKE ?
-  AND stores.city = ?
-  ORDER BY grocery_items.name ASC";
-} else if ($selected_city == '') {
-  $sql = "SELECT grocery_items.id, grocery_items.name, grocery_items.description, grocery_items.image_url, stores.name AS store_name, grocery_item_prices.price
-  FROM grocery_items
-  JOIN grocery_item_prices ON grocery_items.id = grocery_item_prices.grocery_item_id
-  JOIN stores ON grocery_item_prices.store_id = stores.id
-  WHERE grocery_items.name LIKE ?
-  AND stores.name = ?
-  ORDER BY grocery_items.name ASC";
-} else {
-  $sql = "SELECT grocery_items.id, grocery_items.name, grocery_items.description, grocery_items.image_url, stores.name AS store_name, grocery_item_prices.price
+// if stor or location are empty 
+
+$sql = "SELECT grocery_items.id, grocery_items.name, grocery_items.description, grocery_items.image_url, stores.name AS store_name, grocery_item_prices.price
   FROM grocery_items
   JOIN grocery_item_prices ON grocery_items.id = grocery_item_prices.grocery_item_id
   JOIN stores ON grocery_item_prices.store_id = stores.id
@@ -57,7 +34,6 @@ if ($selected_store == '' && $selected_city == '') {
   AND stores.city = ?
   AND stores.name = ?
   ORDER BY grocery_items.name ASC";
-}
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param('sss', $search_query, $selected_city, $selected_store);

@@ -99,7 +99,6 @@ textarea:focus, input:focus{
     padding: 2em;
 }
 
-/* class search-form */
 .search-form {
     display: flex;
     flex-direction: row;
