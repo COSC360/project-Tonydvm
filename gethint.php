@@ -1,12 +1,11 @@
 <?php
 // populate $a array with grocery_items(id,name) table with name column
 // connect to database
-// Connect to the database
-// $host = 'localhost';
-// $user = '76865732';
-// $password = '76865732';
-// $database = 'db_76865732';
-// $conn = new mysqli($host, $user, $password, $database);
+$host = 'localhost';
+$user = '76865732';
+$password = '76865732';
+$database = 'db_76865732';
+$conn = new mysqli($host, $user, $password, $database);
 
 // Check connection
 if ($conn->connect_error) {
