@@ -107,3 +107,9 @@ textarea:focus, input:focus{
     color: white;
     margin: 1em;
 }
+
+/* make images smaller */
+img {
+    max-width: 20%;
+    height: auto;
+}

@@ -149,9 +149,15 @@
     }
 
     // create a query to insert the user into the database
-    $sql = "INSERT INTO users (username, email, password, image) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
     $statement = $pdo->prepare($sql);
-    $statement->execute([$username, $email, $password, $image]);
+    $statement->execute([$username, $email, $password]);
+
+    // insert image into database user_images table with user_id and image_url
+    $userId = $pdo->lastInsertId();
+    $sql = "INSERT INTO user_images (user_id, image_url) VALUES (?, ?)";
+    $statement = $pdo->prepare($sql);
+    $statement->execute([$userId, $image]);
 
     // return a response to the app
     $response = array();

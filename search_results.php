@@ -18,7 +18,9 @@
       echo '
         <div class="header-wrapper" id="logged">
         <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
-       
+        <div id="search">
+        
+        </div>
         <a href="preferences.php" id="preferences">
         <div class="button">
         <h2>Preferences</h2>
@@ -30,7 +32,10 @@
       echo '
         <div class="header-wrapper" id="guest">
         <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
+        <div id="search">
 
+
+        </div>
         <a href="createAccount.php" id="createAccount"> <h2>Create Account</h2></a>
         <a href="login.html" id="login">
         <div class="button">
