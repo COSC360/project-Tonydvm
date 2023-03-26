@@ -15,14 +15,14 @@ try {
     // sanitize the email and password
     // check for empty email and password
     if (empty($email) || empty($password)) {
-        header("Location: login.php");
+        header("Location: login.html");
     }
     // use trim 
     $email = trim($email);
     $password = trim($password);
     // check for databse value incompatability
     if (strpos($email, "'") !== false || strpos($password, "'") !== false) {
-        header("Location: login.php");
+        header("Location: login.html");
     }
 
 
@@ -34,19 +34,19 @@ try {
     // extract user id from the query result
     $userId = $statement->fetchColumn(0);
 
-    // check if user is an admin
-    $sql = "SELECT * FROM users WHERE email = ? AND password = ? AND admin = 1";
-    $statement = $pdo->prepare($sql);
-    $statement->execute([$email, $password]);
+    // // check if user is an admin
+    // $sql = "SELECT * FROM users WHERE email = ? AND password = ? AND admin = 1";
+    // $statement = $pdo->prepare($sql);
+    // $statement->execute([$email, $password]);
 
-    // if the user is an admin
-    if ($statement->rowCount() > 0) {
-        header("Location: admin.php");
-        // create session state and redirect to admin page
-        session_start();
-        $_SESSION['user'] = $userId;
-        header("Location: landing.php");
-    }
+    // // if the user is an admin
+    // if ($statement->rowCount() > 0) {
+    //     header("Location: admin.php");
+    //     // create session state and redirect to admin page
+    //     session_start();
+    //     $_SESSION['user'] = $userId;
+    //     header("Location: landing.php");
+    // }
 
     // if the user exists
     if ($statement->rowCount() > 0) {
@@ -56,7 +56,7 @@ try {
         $_SESSION['user'] = $userId;
         header("Location: landing.php");
     } else {
-        header("Location: login.php");
+        header("Location: login.html");
     }
 } catch (PDOException $e) {
     die($e->getMessage());
