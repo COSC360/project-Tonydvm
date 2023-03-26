@@ -91,9 +91,22 @@
       <div class="right-container">
         <h2>Watchlist</h2>
         <ul>
-          <?php
+        <?php
           if (isset($_SESSION['user'])) {
             $user_id = $_SESSION['user']['id'];
+
+            // Connect to the database
+            $host = 'localhost';
+            $user = '76865732';
+            $password = '76865732';
+            $database = 'db_76865732';
+            $conn = new mysqli($host, $user, $password, $database);
+
+            // Check connection
+            if ($conn->connect_error) {
+              die("Connection failed: " . $conn->connect_error);
+            }
+
             $sql = "SELECT grocery_items.id, grocery_items.name
                     FROM grocery_items
                     INNER JOIN cart ON grocery_items.id = cart.product_id
@@ -110,10 +123,16 @@
             } else {
               echo '<li>No items in watchlist.</li>';
             }
+
+            // Close connection
+            $stmt->close();
+            $conn->close();
+
           } else {
             echo '<li>Please <a href="login.html">log in</a> to view your watchlist.</li>';
           }
           ?>
+
         </ul>
       </div>
     </div>
