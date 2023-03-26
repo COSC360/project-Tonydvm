@@ -7,6 +7,23 @@
   <link rel="stylesheet" href="css/landing.css">
   <script src="js/livesearch.js"></script>
 
+  <script>
+    function showHint(str) {
+      if (str.length == 0) {
+        document.getElementById("txtHint").innerHTML = "";
+        return;
+      } else {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("txtHint").innerHTML = this.responseText;
+          }
+        };
+        xmlhttp.open("GET", "gethint.php?q=" + str, true);
+        xmlhttp.send();
+      }
+    }
+  </script>
 </head>
 
 <body>
@@ -49,9 +66,10 @@
   </header>
   <main>
     <h1>Search Results</h1>
-    <form method="post" class="search-form">
+    <form method="post" class="search-form" action="">
       <label for="item-name">Search for Item Name:</label>
-      <input type="text" id="item-name" name="item-name" placeholder="Search for a product...">
+      <input type="text" id="item-name" name="item-name" placeholder="Search for a product..."
+        onkeyup="showHint(this.value)">
       <div id="search-suggestions"></div>
 
       <label for="store">Store:</label>
@@ -85,6 +103,7 @@
         <!-- Search results will be displayed here -->
       </div>
     </form>
+    <p>Suggestions: <span id="txtHint"></span></p>
 
     <div class="body-container">
       <?php
