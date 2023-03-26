@@ -48,7 +48,7 @@
         echo '
           <div class="user-info">
             <div class="user-image">
-              <img src="' . $statement2->fetchColumn() . '" alt="user image" />
+              <img src="' . $statement2->fetchColumn() . '" alt="user image" width="500" />
             </div>
             <div class="user-info-text">
               <h2> User Name: ' . $row['username'] . '</h2>
