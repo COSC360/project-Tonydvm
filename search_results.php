@@ -1,68 +1,87 @@
-
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Search Results</title>
   <link rel="stylesheet" href="css/reset.css" />
   <link rel="stylesheet" href="css/landing.css">
   <script src="js/livesearch.js"></script>
-  
+
 </head>
-  <body>
-    <header>
-          <div class="header-wrapper">
-            <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
-            <a href="createAccount.php" id="createAccount"
-              ><h2>Create Account</h2></a
-            >
-            <a href="login.html" id="logIn">
-              <div class="button">
-                <h2>Log In</h2>
-              </div>
-            </a>
-          </div>
-    </header>
 
-    <main>
-      <h1>Search Results</h1>
-      <form method="post">
-        <label for="item-name">Search for Item Name:</label>
-        <input type="text" id="item-name" name="item-name" placeholder="Search for a product...">
-        <div id="search-suggestions"></div>
-
-        <label for="store">Store:</label>
-        <select id="store" name="store">
-          <option value="">Any Store</option>
-          <option value="Save-On Foods">Save-On Foods</option>
-          <option value="Canadian Supermarket">Canadian Supermarket</option>
-          <option value="Costco">Costco</option>
-          <option value="Walmart">Walmart</option>
-          <option value="Independent Grocer">Independent Grocer</option>
-        </select>
-
-
-
-        <label for="location">Location:</label>
-        <select id="location" name="location">
-          <option value="">Any Location</option>
-          <option value="Toronto">Toronto</option>
-          <option value="Vancouver">Vancouver</option>
-          <option value="Montreal">Montreal</option>
-          <option value="Calgary">Calgary</option>
-          <option value="Kelowna">Kelowna</option>
-          <option value="Edmonton">Edmonton</option>
-          <option value="Ottawa">Ottawa</option>
-          <option value="Quebec City">Quebec City</option>
-        </select>
-
-        <button type="submit">Search</button>
-
-        <div id="search-results">
-        <!-- Search results will be displayed here -->
+<body>
+  <header>
+    <!-- php dynamic header changes based on session user  -->
+    <?php
+    session_start();
+    if (isset($_SESSION['user'])) {
+      echo '
+        <div class="header-wrapper" id="logged">
+        <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
+       
+        <a href="preferences.php" id="preferences">
+        <div class="button">
+        <h2>Preferences</h2>
         </div>
-      </form>
+        </a>
+        </div>
+        ';
+    } else {
+      echo '
+        <div class="header-wrapper" id="guest">
+        <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
 
-      <div class="body-container">
+        <a href="createAccount.php" id="createAccount"> <h2>Create Account</h2></a>
+        <a href="login.html" id="login">
+        <div class="button">
+        <h2>Log In</h2>
+        </div>
+        </a>
+        </div>
+        ';
+    }
+    ?>
+  </header>
+  <main>
+    <h1>Search Results</h1>
+    <form method="post" class="search-form">
+      <label for="item-name">Search for Item Name:</label>
+      <input type="text" id="item-name" name="item-name" placeholder="Search for a product...">
+      <div id="search-suggestions"></div>
+
+      <label for="store">Store:</label>
+      <select id="store" name="store">
+        <option value="">Any Store</option>
+        <option value="Save-On Foods">Save-On Foods</option>
+        <option value="Canadian Supermarket">Canadian Supermarket</option>
+        <option value="Costco">Costco</option>
+        <option value="Walmart">Walmart</option>
+        <option value="Independent Grocer">Independent Grocer</option>
+      </select>
+
+
+
+      <label for="location">Location:</label>
+      <select id="location" name="location">
+        <option value="">Any Location</option>
+        <option value="Toronto">Toronto</option>
+        <option value="Vancouver">Vancouver</option>
+        <option value="Montreal">Montreal</option>
+        <option value="Calgary">Calgary</option>
+        <option value="Kelowna">Kelowna</option>
+        <option value="Edmonton">Edmonton</option>
+        <option value="Ottawa">Ottawa</option>
+        <option value="Quebec City">Quebec City</option>
+      </select>
+
+      <button type="submit">Search</button>
+
+      <div id="search-results">
+        <!-- Search results will be displayed here -->
+      </div>
+    </form>
+
+    <div class="body-container">
       <?php
       // Connect to the database
       $host = 'localhost';
@@ -80,7 +99,7 @@
       $search_query = '%' . $_POST['item-name'] . '%';
       $selected_city = $_POST['location'];
       $selected_store = $_POST['store'];
-    
+
 
       // Build and execute SQL query using prepared statements
       $sql = "SELECT grocery_items.id, grocery_items.name, grocery_items.description, grocery_items.image_url, stores.name AS store_name, grocery_item_prices.price
@@ -103,16 +122,16 @@
         echo "<table>";
         echo "<tr><th>Image</th><th>ID</th><th>Name</th><th>Price($CAN)</th></tr>";
         // Output data of each row
-        while($row = $result->fetch_assoc()) {
+        while ($row = $result->fetch_assoc()) {
           echo "<tr>";
           echo "<td><img src='" . $row["image_url"] . "' alt='" . $row["name"] . "' width='100' height='100'></td>";
-          echo "<td>" . $row["id"]. "</td>";
+          echo "<td>" . $row["id"] . "</td>";
           echo "<td><a href='product_details.php?id=" . $row['id'] . "'>" . $row['name'] . "</a></td>";
-          echo "<td>" . $row["price"]. "</td>";
+          echo "<td>" . $row["price"] . "</td>";
           echo "</tr>";
-      }
+        }
         echo "</table>";
-      }  else {
+      } else {
         echo "No results found.";
       }
 
@@ -120,7 +139,8 @@
       $stmt->close();
       $conn->close();
       ?>
-      </div>
-    </main>
-  </body>
+    </div>
+  </main>
+</body>
+
 </html>

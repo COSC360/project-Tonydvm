@@ -98,3 +98,13 @@ textarea:focus, input:focus{
     margin: 1em;
     padding: 2em;
 }
+
+/* class search-form */
+.search-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* max-width: 1200px; */
+    color: white;
+    margin: 1em;
+}

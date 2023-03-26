@@ -19,7 +19,11 @@
         <div class="header-wrapper" id="logged">
         <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
         <div id="search">
-        <input type="text" placeholder="Search" />
+
+        <form action="search_results.php" method="post">
+        <input type="text" placeholder="Search"  />
+        </form>
+        
         </div>
         <a href="preferences.php" id="preferences">
         <div class="button">
@@ -32,7 +36,13 @@
       echo '
         <div class="header-wrapper" id="guest">
         <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
-        <div id="search"><input type="text" placeholder="Search" /></div>
+        <div id="search">
+
+        <form action="search_results.php" method="post">
+        <input type="text" placeholder="Search" />
+        </form>
+
+        </div>
         <a href="createAccount.php" id="createAccount"> <h2>Create Account</h2></a>
         <a href="login.html" id="login">
         <div class="button">
