@@ -59,7 +59,6 @@
     <div class="body-container">
       <div class="left-container">
         <h2>Low Priced Items</h2>
-        <a href="landing.php">item1</a>
         <!-- collect first 10 products from databse under products and display links as a list -->
         <?php
         try {
@@ -78,10 +77,10 @@
           // extract product info from query result
           $products = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-          // display product info
+          // display product info          
           echo '<ul>';
           foreach ($products as $product) {
-            echo '<li><a href="product.php?id=' . $product['id'] . '">' . $product['name'] . '</a></li>';
+            echo '<li><a href="product_details.php?id=' . $product['id'] . '">' . $product['name'] . '</a></li>';
           }
           echo '</ul>';
 
