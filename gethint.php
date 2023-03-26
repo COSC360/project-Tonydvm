@@ -1,27 +1,36 @@
 <?php
-// populate $a array with grocery_items(id,name) table with name column
-// connect to database
-$host = 'localhost';
-$user = '76865732';
-$password = '76865732';
-$database = 'db_76865732';
-$conn = new mysqli($host, $user, $password, $database);
-
-// Check connection
-if ($conn->connect_error) {
-    echo "Connection failed: " . $conn->connect_error;
-    die("Connection failed: " . $conn->connect_error);
-}
-
-$sql = "SELECT name FROM grocery_items";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    // output data of each row
-    while ($row = $result->fetch_assoc()) {
-        $a[] = $row["name"];
-    }
-}
+// Array with names
+$a[] = "Anna";
+$a[] = "Ariana";
+$a[] = "Brittany";
+$a[] = "Cinderella";
+$a[] = "Diana";
+$a[] = "Eva";
+$a[] = "Fiona";
+$a[] = "Gunda";
+$a[] = "Hege";
+$a[] = "Inga";
+$a[] = "Johanna";
+$a[] = "Kitty";
+$a[] = "Linda";
+$a[] = "Nina";
+$a[] = "Ophelia";
+$a[] = "Petunia";
+$a[] = "Amanda";
+$a[] = "Raquel";
+$a[] = "Cindy";
+$a[] = "Doris";
+$a[] = "Eve";
+$a[] = "Evita";
+$a[] = "Sunniva";
+$a[] = "Tove";
+$a[] = "Unni";
+$a[] = "Violet";
+$a[] = "Liza";
+$a[] = "Elizabeth";
+$a[] = "Ellen";
+$a[] = "Wenche";
+$a[] = "Vicky";
 
 // get the q parameter from URL
 $q = $_REQUEST["q"];
