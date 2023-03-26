@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="css/landing.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="js/livesearch.js"></script>
-  
 </head>
 <body>
     <header>
@@ -15,7 +14,7 @@
           <a href="createAccount.php" id="createAccount">
             <h2>Create Account</h2></a
           >
-          <a href="logIn.html" id="logIn">
+          <a href="login.html" id="logIn">
             <div class="button">
               <h2>Log In</h2>
             </div>
@@ -23,21 +22,25 @@
         </div>
     </header>
 
+    
     <main>
       <h1>Search Results</h1>
       <form method="post" action="search_results.php">
         <label for="item-name">Item Name:</label>
         <input type="text" id="item-name" name="item-name">
 
+        /*
         <label for="store">Store:</label>
         <select id="store" name="store">
           <option value="">Any Store</option>
-          <option value="1">Save-On Foods</option>
-          <option value="2">Canadian Supermarket</option>
-          <option value="3">Coscto</option>
-          <option value="3">Walmart</option>
-          <option value="3">Independent Grocer</option>
+          <option value="Save-On Foods">Save-On Foods</option>
+          <option value="Canadian Supermarket">Canadian Supermarket</option>
+          <option value="Costco">Costco</option>
+          <option value="Walmart">Walmart</option>
+          <option value="Independent Grocer">Independent Grocer</option>
         </select>
+        
+        
 
         <label for="location">Location:</label>
         <select id="location" name="location">
@@ -45,20 +48,21 @@
           <option value="Toronto">Toronto</option>
           <option value="Vancouver">Vancouver</option>
           <option value="Montreal">Montreal</option>
-          <option value="Montreal">Calgary</option>
-          <option value="Montreal">Kelowna</option>
-          <option value="Montreal">Edmonton</option>
-          <option value="Montreal">Ottawa</option>
-          <option value="Montreal">Quebec City</option>
+          <option value="Calgary">Calgary</option>
+          <option value="Kelowna">Kelowna</option>
+          <option value="Edmonton">Edmonton</option>
+          <option value="Ottawa">Ottawa</option>
+          <option value="Quebec City">Quebec City</option>
         </select>
+        
 
         <button type="submit">Search</button>
 
-        <div id="suggestions">
-
-        </div>
-
       </form>
+
+      <div id="search-results">
+        <!-- Search results will be displayed here -->
+      </div>
 
     </main>
 </body>

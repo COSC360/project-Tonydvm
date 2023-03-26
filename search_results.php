@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +25,7 @@
 
     <main>
       <h1>Search Results</h1>
-      <form>
+      <form method="post">
         <label for="item-name">Search for Item Name:</label>
         <input type="text" id="item-name" name="item-name" placeholder="Search for a product...">
         <div id="search-suggestions"></div>
@@ -32,12 +33,14 @@
         <label for="store">Store:</label>
         <select id="store" name="store">
           <option value="">Any Store</option>
-          <option value="1">Save-On Foods</option>
-          <option value="2">Canadian Supermarket</option>
-          <option value="3">Coscto</option>
-          <option value="3">Walmart</option>
-          <option value="3">Independent Grocer</option>
+          <option value="Save-On Foods">Save-On Foods</option>
+          <option value="Canadian Supermarket">Canadian Supermarket</option>
+          <option value="Costco">Costco</option>
+          <option value="Walmart">Walmart</option>
+          <option value="Independent Grocer">Independent Grocer</option>
         </select>
+
+
 
         <label for="location">Location:</label>
         <select id="location" name="location">
@@ -45,11 +48,11 @@
           <option value="Toronto">Toronto</option>
           <option value="Vancouver">Vancouver</option>
           <option value="Montreal">Montreal</option>
-          <option value="Montreal">Calgary</option>
-          <option value="Montreal">Kelowna</option>
-          <option value="Montreal">Edmonton</option>
-          <option value="Montreal">Ottawa</option>
-          <option value="Montreal">Quebec City</option>
+          <option value="Calgary">Calgary</option>
+          <option value="Kelowna">Kelowna</option>
+          <option value="Edmonton">Edmonton</option>
+          <option value="Ottawa">Ottawa</option>
+          <option value="Quebec City">Quebec City</option>
         </select>
 
         <button type="submit">Search</button>
@@ -59,56 +62,65 @@
         </div>
       </form>
 
+      <div class="body-container">
       <?php
-        // Connect to the database
-        $host = 'localhost';
-        $user = 'username';
-        $password = '76865732';
-        $database = 'db_76865732';
-        $conn = mysqli_connect($host, $user, $password, $database);
+      // Connect to the database
+      $host = 'localhost';
+      $user = '76865732';
+      $password = '76865732';
+      $database = 'db_76865732';
+      $conn = new mysqli($host, $user, $password, $database);
 
-        // Check connection
-        if (!$conn) {
-          die("Connection failed: " . mysqli_connect_error());
-        }
+      // Check connection
+      if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+      }
 
-        // Get search query and selected store and city from form submission
-        $search_query = $_POST['item-name'];
-        $selected_store = $_POST['store'];
-        $selected_city = $_POST['location'];
+      // Get search query and selected store and city from form submission
+      $search_query = '%' . $_POST['item-name'] . '%';
+      $selected_city = $_POST['location'];
+      $selected_store = $_POST['store'];
+    
 
-        // Build and execute SQL query
-        $sql = "SELECT grocery_items.id, grocery_items.name, grocery_items.description, grocery_items.image_url, stores.name AS store_name, grocery_item_prices.price
-        FROM grocery_items
-        JOIN grocery_item_prices ON grocery_items.id = grocery_item_prices.grocery_item_id
-        JOIN stores ON grocery_item_prices.store_id = stores.id
-        WHERE grocery_items.name LIKE '%$search_query%'
-        AND stores.city = '$selected_city'
-        AND stores.name = '$selected_store'
-        ORDER BY grocery_items.name ASC";
-        $result = $conn->query($sql);
+      // Build and execute SQL query using prepared statements
+      $sql = "SELECT grocery_items.id, grocery_items.name, grocery_items.description, grocery_items.image_url, stores.name AS store_name, grocery_item_prices.price
+      FROM grocery_items
+      JOIN grocery_item_prices ON grocery_items.id = grocery_item_prices.grocery_item_id
+      JOIN stores ON grocery_item_prices.store_id = stores.id
+      WHERE grocery_items.name LIKE ?
+      AND (stores.city = ? OR ? = '')
+      AND (stores.name = ? OR ? = '')
+      ORDER BY grocery_items.name ASC";
 
-        // Check if there are any results
-        if ($result->num_rows > 0) {
-          echo "<table>";
-          echo "<tr><th>Image</th><th>ID</th><th>Name</th><th>Price($CAN)</th></tr>";
-          // Output data of each row
-          while($row = $result->fetch_assoc()) {
-            echo "<tr>";
-            echo "<td>" . $row["image_url"]. "</td>";
-            echo "<td>" . $row["id"]. "</td>";
-            echo "<td><a href='product_details.php?id=" . $row['id'] . "'>" . $row['name'] . "</a></td>";
-            echo "<td>" . $row["price"]. "</td>"; 
-            echo "</tr>";
-          }
-          echo "</table>";
-        } else {
-          echo "No results found.";
-        }
+      $stmt = $conn->prepare($sql);
+      $stmt->bind_param('sssss', $search_query, $selected_city, $selected_city, $selected_store, $selected_store);
+      $stmt->execute();
 
-        // Close connection
-        mysqli_close($conn);
+      $result = $stmt->get_result();
+
+      // Check if there are any results
+      if ($result->num_rows > 0) {
+        echo "<table>";
+        echo "<tr><th>Image</th><th>ID</th><th>Name</th><th>Price($CAN)</th></tr>";
+        // Output data of each row
+        while($row = $result->fetch_assoc()) {
+          echo "<tr>";
+          echo "<td><img src='" . $row["image_url"] . "' alt='" . $row["name"] . "' width='100' height='100'></td>";
+          echo "<td>" . $row["id"]. "</td>";
+          echo "<td><a href='product_details.php?id=" . $row['id'] . "'>" . $row['name'] . "</a></td>";
+          echo "<td>" . $row["price"]. "</td>";
+          echo "</tr>";
+      }
+        echo "</table>";
+      }  else {
+        echo "No results found.";
+      }
+
+      // Close connection
+      $stmt->close();
+      $conn->close();
       ?>
+      </div>
     </main>
   </body>
 </html>
