@@ -29,43 +29,35 @@
       $pdo = new PDO($connString, $user, $pass);
       $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-      // get userId from session variable
-      $userId = $_SESSION['user'];
+      // get user id from session
+      session_start();
+      $user_id = $_SESSION['user'];
 
-      // get user info from database
-      $sql = "SELECT * FROM users WHERE id = ?";
+      // get username, email, and password from database user table (id,username,email,password,role)
+      $sql = "SELECT username, email, password FROM user WHERE id = $user_id";
       $statement = $pdo->prepare($sql);
-      $statement->execute([$userId]);
+      $statement->execute();
 
-      // extract user info from query result
-      $user = $statement->fetch();
+      // get image from database user_image table (id, user_id, image_url)
+      $sql = "SELECT image_url FROM user_image WHERE user_id = $user_id";
+      $statement2 = $pdo->prepare($sql);
+      $statement2->execute();
 
-      // each user has id, username, password, and role
-      $username = $user['username'];
-      $password = $user['password'];
-      $role = $user['role'];
-
-      // display user info in a table 
-      echo "
-      <div class='user-info'>
-        <h2>User Info</h2>
-        <table>
-          <tr>
-            <th>Username</th>
-            <th>Password</th>
-            <th>Role</th>
-          </tr>
-          <tr>
-            <td>$username</td>
-            <td>$password</td>
-            <td>$role</td>
-          </tr>
-        </table>
-      </div>
-      ";
-
-
-
+      // show image and user info
+      while ($row = $statement->fetch()) {
+        echo '
+          <div class="user-info">
+            <div class="user-image">
+              <img src="' . $statement2->fetchColumn() . '" alt="user image" />
+            </div>
+            <div class="user-info-text">
+              <h2>' . $row['username'] . '</h2>
+              <h3>' . $row['email'] . '</h3>
+              <h3>' . $row['password'] . '</h3>
+            </div>
+          </div>
+          ';
+      }
     } catch (PDOException $e) {
       die($e->getMessage());
     }
