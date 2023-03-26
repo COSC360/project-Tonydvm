@@ -95,8 +95,8 @@
           if (isset($_SESSION['user'])) {
             $user_id = $_SESSION['user']['id'];
             $sql = "SELECT grocery_items.id, grocery_items.name
-                    FROM cart
-                    INNER JOIN grocery_items ON cart.product_id = grocery_items.id
+                    FROM grocery_items
+                    INNER JOIN cart ON grocery_items.id = cart.product_id
                     WHERE cart.user_id = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param('i', $user_id);
