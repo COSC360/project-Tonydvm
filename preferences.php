@@ -38,7 +38,7 @@
       $statement->execute([$userId]);
 
       // extract user info from query result
-      $user = $statement->fetch(PDO::FETCH_ASSOC);
+      $user = $statement->fetch();
 
       // each user has id, username, password, and role
       $username = $user['username'];
