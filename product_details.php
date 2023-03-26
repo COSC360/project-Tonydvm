@@ -77,7 +77,7 @@
       // Display product details
       $row = $result->fetch_assoc();
       echo "<div class='product-details'>";
-      echo "<img src='" . $row["image_url"] . "' alt='" . $row["name"] . "'>";
+      echo "<img src='" . $row["image_url"] . "' alt='" . $row["name"] . "' width='500'>";
       echo "<h2>" . $row["name"] . "</h2>";
       echo "<p>ID: " . $_GET['id'] . "</p>";
       echo "<p>Description: " . $row["description"] . "</p>";
@@ -103,7 +103,7 @@
     // Close connection
     $stmt->close();
     $conn->close();
-  ?>
+    ?>
     <div class="back-link">
       <a href="search_results.php">Back to Search Results</a>
     </div>
