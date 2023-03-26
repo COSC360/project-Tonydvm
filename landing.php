@@ -88,22 +88,35 @@
           die($e->getMessage());
         }
         ?>
-      </div>
       <div class="right-container">
         <h2>Watchlist</h2>
         <ul>
-          <a href="landing.php"></a>
-          <li>Item 2</li>
-          <li>Item 3</li>
-          <li>Item 4</li>
-          <li>Item 5</li>
-          <li>Item 6</li>
-          <li>Item 7</li>
-          <li>Item 8</li>
-          <li>Item 9</li>
-          <li>Item 10</li>
+          <?php
+          if (isset($_SESSION['user'])) {
+            $user_id = $_SESSION['user']['id'];
+            $sql = "SELECT grocery_items.id, grocery_items.name
+                    FROM cart
+                    INNER JOIN grocery_items ON cart.product_id = grocery_items.id
+                    WHERE cart.user_id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param('i', $user_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+              while ($row = $result->fetch_assoc()) {
+                echo '<li><a href="product_details.php?id=' . $row["id"] . '">' . $row["name"] . '</a></li>';
+              }
+            } else {
+              echo '<li>No items in watchlist.</li>';
+            }
+          } else {
+            echo '<li>Please <a href="login.html">log in</a> to view your watchlist.</li>';
+          }
+          ?>
         </ul>
       </div>
+
 
   </main>
 </body>

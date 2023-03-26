@@ -90,10 +90,20 @@
       echo "No product details found.";
     }
 
+    if (isset($_SESSION['user'])) {
+      echo '<form action="add_to_cart.php" method="post">';
+      echo '<input type="hidden" name="product_id" value="' . $_GET['id'] . '">';
+      echo '<input type="number" name="quantity" value="1" min="1">';
+      echo '<button type="submit">Add to Cart</button>';
+      echo '</form>';
+    } else {
+      echo '<p>Please <a href="login.html">log in</a> to add this item to your cart.</p>';
+    }
+
     // Close connection
     $stmt->close();
     $conn->close();
-    ?>
+  ?>
     <div class="back-link">
       <a href="search_results.php">Back to Search Results</a>
     </div>
