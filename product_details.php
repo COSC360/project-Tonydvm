@@ -101,10 +101,51 @@
       echo '<p>Please <a href="login.html">log in</a> to add this item to your cart.</p>';
     }
 
+    if (isset($_SESSION['user'])) {
+      echo '<h3>Add a Review</h3>';
+      echo '<form action="add_review.php" method="post">';
+      echo '<input type="hidden" name="product_id" value="' . $_GET['id'] . '">';
+      echo '<label for="rating">Rating (1-5):</label>';
+      echo '<input type="number" name="rating" value="5" min="1" max="5">';
+      echo '<label for="comment">Comment:</label>';
+      echo '<textarea name="comment" rows="4" cols="50" required></textarea>';
+      echo '<button type="submit">Submit Review</button>';
+      echo '</form>';
+    } else {
+      echo '<p>Please <a href="login.html">log in</a> to add a review.</p>';
+    }
+
+    // Fetch reviews for the current product
+    $sql_reviews = "SELECT user_reviews.rating, user_reviews.comment, users.username
+    FROM user_reviews
+    INNER JOIN users ON user_reviews.user_id = users.id
+    WHERE user_reviews.grocery_item_id = ?";
+    $stmt_reviews = $conn->prepare($sql_reviews);
+    $stmt_reviews->bind_param('i', $_GET['id']);
+    $stmt_reviews->execute();
+    $result_reviews = $stmt_reviews->get_result();
+
+   
+    if ($result_reviews->num_rows > 0) {
+      echo "<h3>User Reviews:</h3>";
+      while ($row_review = $result_reviews->fetch_assoc()) {
+        echo '<div class="review">';
+        echo '<p><strong>Rating:</strong> ' . $row_review["rating"] . '/5</p>';
+        echo '<p><strong>Comment:</strong> ' . $row_review["comment"] . '</p>';
+        echo '<p><strong>User:</strong> ' . $row_review["username"] . '</p>';
+        echo '</div>';
+      }
+    } else {
+      echo '<p>No reviews yet. Be the first to add one!</p>';
+    }
+        
+
     // Close connection
     $stmt->close();
     $conn->close();
+    
     ?>
+
     <div class="back-link">
       <a href="search.html">Back to Search Page</a>
     </div>
