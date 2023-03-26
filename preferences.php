@@ -40,21 +40,30 @@
       // extract user info from query result
       $user = $statement->fetch(PDO::FETCH_ASSOC);
 
-      // display user info in form fields each user has id, username, password, and role
-      echo '
-      <div class="form-container">
-        <form action="updateUser.php" method="post">
-          <input type="hidden" name="id" value="' . $user['id'] . '" />
-          <label for="username">Username</label>
-          <input type="text" name="username" value="' . $user['username'] . '" />
-          <label for="password">Password</label>
-          <input type="password" name="password" value="' . $user['password'] . '" />
-          <label for="role">Role</label>
-          <input type="text" name="role" value="' . $user['role'] . '" />
-          <input type="submit" value="Update" />
-        </form>
+      // each user has id, username, password, and role
+      $username = $user['username'];
+      $password = $user['password'];
+      $role = $user['role'];
+
+      // display user info in a table 
+      echo "
+      <div class='user-info'>
+        <h2>User Info</h2>
+        <table>
+          <tr>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Role</th>
+          </tr>
+          <tr>
+            <td>$username</td>
+            <td>$password</td>
+            <td>$role</td>
+          </tr>
+        </table>
       </div>
-      ';
+      ";
+
 
 
     } catch (PDOException $e) {
