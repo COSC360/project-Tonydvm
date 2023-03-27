@@ -93,8 +93,8 @@
     confirm_email.onkeyup = validateEmail;
   </script>
   <?php
-  error_reporting(E_ALL);
-  ini_set('display_errors', 1);
+  // error_reporting(E_ALL);
+  // ini_set('display_errors', 1);
   try {
     $connString = "mysql:host=localhost;dbname=db_76865732";
     $user = "76865732";

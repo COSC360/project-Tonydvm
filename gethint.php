@@ -1,6 +1,6 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 // populate $a with all name column in grocery_items table
 // Connect to the database
 $host = 'localhost';
