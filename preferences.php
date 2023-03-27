@@ -13,10 +13,6 @@
       <a href="landing.php">
         <h1 id="logo">PANTRY</h1>
       </a>
-
-      <div id="search">
-        <input type="text" placeholder="Search" />
-      </div>
     </div>
   </header>
   <div class="main">

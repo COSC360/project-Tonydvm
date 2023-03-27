@@ -21,7 +21,7 @@
         <div id="search">
 
         <form action="search_results.php" method="post">
-        <input type="text" placeholder="Search"  />
+        <input type="text" placeholder="Search" name="item-name" id="item-name" />
         </form>
         
         </div>
@@ -91,7 +91,7 @@
       <div class="right-container">
         <h2>Watchlist</h2>
         <ul>
-        <?php
+          <?php
           if (isset($_SESSION['user'])) {
             $user_id = $_SESSION['user']['id'];
 

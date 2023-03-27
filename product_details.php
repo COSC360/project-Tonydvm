@@ -125,7 +125,7 @@
     $stmt_reviews->execute();
     $result_reviews = $stmt_reviews->get_result();
 
-   
+
     if ($result_reviews->num_rows > 0) {
       echo "<h3>User Reviews:</h3>";
       while ($row_review = $result_reviews->fetch_assoc()) {
@@ -138,16 +138,16 @@
     } else {
       echo '<p>No reviews yet. Be the first to add one!</p>';
     }
-        
+
 
     // Close connection
     $stmt->close();
     $conn->close();
-    
+
     ?>
 
     <div class="back-link">
-      <a href="search.html">Back to Search Page</a>
+      <a href="search_results.php">Back to Search Page</a>
     </div>
   </main>
 </body>
