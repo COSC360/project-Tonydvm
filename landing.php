@@ -11,7 +11,6 @@
 
 <body>
   <header>
-    <!-- php dynamic header changes based on session user  -->
     <?php
     // error_reporting(E_ALL);
     // ini_set('display_errors', 1);
@@ -60,7 +59,6 @@
     <div class="body-container">
       <div class="left-container">
         <h2>Items</h2>
-        <!-- collect first 10 products from databse under products and display links as a list -->
         <?php
         try {
           $connString = "mysql:host=localhost;dbname=db_76865732";
@@ -70,15 +68,10 @@
           $pdo = new PDO($connString, $user, $pass);
           $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-          // get first 10 products from database and display as a list of links 
           $sql = "SELECT * FROM grocery_items LIMIT 10";
           $statement = $pdo->prepare($sql);
           $statement->execute();
-
-          // extract product info from query result
           $products = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-          // display product info          
           echo '<ul>';
           foreach ($products as $product) {
             echo '<li><a href="product_details.php?id=' . $product['id'] . '">' . $product['name'] . '</a></li>';
@@ -134,7 +127,6 @@
             echo '<li>Please <a href="login.html">log in</a> to view your watchlist.</li>';
           }
           ?>
-
         </ul>
       </div>
     </div>

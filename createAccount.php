@@ -52,7 +52,7 @@
     fileInput.onchange = function () {
       if (fileInput.files.length > 0) {
         var file = fileInput.files[0];
-        if (file.type != "image/jpeg" && file.type != "image/png" && file.type != "image/gif") {
+        if (file.type != "image/jpg" && file.type != "image/jpeg" && file.type != "image/png" && file.type != "image/gif") {
           alert("File is not an image!");
           fileInput.value = "";
         } else if (file.size > 1024 * 1024) {
@@ -64,33 +64,15 @@
 
     // check that password is at least 8 characters
     var password = document.getElementById("password");
-    var confirm_password = document.getElementById("confirm_password");
-
     function validatePassword() {
-      if (password.value != confirm_password.value) {
-        confirm_password.setCustomValidity("Passwords Don't Match");
+      if (password.value.length < 8) {
+        password.setCustomValidity("Password must be at least 8 characters");
       } else {
-        confirm_password.setCustomValidity('');
+        password.setCustomValidity('');
       }
     }
-
     password.onchange = validatePassword;
-    confirm_password.onkeyup = validatePassword;
-
-    // check that email is valid
-    var email = document.getElementById("email");
-    var confirm_email = document.getElementById("confirm_email");
-
-    function validateEmail() {
-      if (email.value != confirm_email.value) {
-        confirm_email.setCustomValidity("Emails Don't Match");
-      } else {
-        confirm_email.setCustomValidity('');
-      }
-    }
-
-    email.onchange = validateEmail;
-    confirm_email.onkeyup = validateEmail;
+    password.onkeyup = validatePassword;
   </script>
   <?php
   // error_reporting(E_ALL);
@@ -131,10 +113,8 @@
         $uploadOk = 0;
       }
 
-      // Check if $uploadOk is set to 0 by an error
       if ($uploadOk == 0) {
         echo "Sorry, your file was not uploaded.";
-        // if everything is ok, try to upload file
       } else {
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
           echo "The file " . htmlspecialchars(basename($_FILES["image"]["name"])) . " has been uploaded.";
@@ -174,7 +154,6 @@
 
     echo json_encode($response);
   } catch (PDOException $e) {
-    // alert 
     echo "Error: " . $e->getMessage();
   }
   ?>
