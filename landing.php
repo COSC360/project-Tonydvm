@@ -21,7 +21,7 @@
         <div id="search">
 
         <form action="search_results.php" method="post">
-        <input type="text" placeholder="Search" name="item-name" id="item-name" />
+        <input type="text" placeholder="Search for a product..." name="item-name" id="item-name" autocomplete="off" />
         </form>
         
         </div>

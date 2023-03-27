@@ -124,6 +124,14 @@
       $selected_city = $_POST['location'];
       $selected_store = $_POST['store'];
 
+      // if null values are passed, set them to empty strings
+      if ($selected_city == null) {
+        $selected_city = '';
+      }
+      if ($selected_store == null) {
+        $selected_store = '';
+      }
+
       // trim whitespace from search query
       $search_query = trim($search_query);
 
