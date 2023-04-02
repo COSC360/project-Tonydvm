@@ -60,14 +60,8 @@
       <div class="left-container">
         <h2>Items</h2>
         <?php
-        try {
-          $connString = "mysql:host=localhost;dbname=db_76865732";
-          $user = "76865732";
-          $pass = "76865732";
-
-          $pdo = new PDO($connString, $user, $pass);
-          $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+          require_once 'connect.php';
+          
           $sql = "SELECT * FROM grocery_items LIMIT 10";
           $statement = $pdo->prepare($sql);
           $statement->execute();
@@ -77,10 +71,6 @@
             echo '<li><a href="product_details.php?id=' . $product['id'] . '">' . $product['name'] . '</a></li>';
           }
           echo '</ul>';
-
-        } catch (PDOException $e) {
-          die($e->getMessage());
-        }
         ?>
       </div>
       <div class="right-container">
