@@ -3,7 +3,7 @@
 }
 #search {
     border: 0;
-    background-color: rgb(61, 65, 68);
+    background-color: rgb(50,53,55);
     padding: 1em;
     border-radius: 5em;
     align-items: flex-start;
@@ -15,7 +15,7 @@
 
 #search input {
     border: 0;
-    background-color: rgb(61, 65, 68);
+    background-color: rgb(50,53,55);
     
     /* border-radius: 52px; */
     align-items: flex-start;
@@ -36,7 +36,7 @@
 }
 .button {
     border: 0;
-    background-color: rgb(61, 65, 68);
+    background-color: rgb(50,53,55);
     padding: 1em;
     border-radius: 52px;
 }
@@ -62,7 +62,7 @@ a:hover {
 
 .header-wrapper {
     display: flex;  
-    background-color: rgb(37, 40, 42);
+    background-color: rgb(30, 32, 3);
     /* flex-flow: nowrap; */
     font-weight: bold;
     text-align: center; 
@@ -72,7 +72,7 @@ a:hover {
 }
 
 body {
-    background-color: rgb(24, 26, 27);
+    background-color: rgb(19,21,22);
 }
 textarea:focus, input:focus{
     outline: none;
@@ -88,13 +88,13 @@ textarea:focus, input:focus{
 }
 .left-container{
     width: 80%;
-    background-color: rgba(49,49,49,1);
+    background-color: rgb(37,40,42);
     margin: 1em;
     padding: 2em;  
 }
 .right-container{
     width: 20%;
-    background-color: rgba(49,49,49,1);
+    background-color: rgb(37,40,42);
     margin: 1em;
     padding: 2em;
 }
