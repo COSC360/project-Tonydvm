@@ -1,6 +1,6 @@
 <?php
     try {
-        require_once '../connectDetails.php';
+        require_once '../../connectDetails.php';
 
         $connString = connString;
         $user = user;
