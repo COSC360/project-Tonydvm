@@ -53,6 +53,11 @@
     // Connect to the database
     require_once 'connect.php';
 
+    // Check connection
+    if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+    }
+
     // Build query
     $sql = "SELECT grocery_items.name, grocery_items.description, grocery_items.weight, stores.name AS store_name, stores.city, grocery_item_prices.price, grocery_items.image_url
               FROM grocery_items
