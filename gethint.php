@@ -3,19 +3,18 @@
 require_once 'connect.php';
 
 $sql = "SELECT name FROM grocery_items";
-$result = $conn->query($sql);
+$statement = $pdo->prepare($sql);
+$statement->execute();
+$result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
+// Put all names into an array
 $a = array();
-if ($result->num_rows > 0) {
-    // output data of each row
-    while ($row = $result->fetch_assoc()) {
-        $a[] = $row["name"];
-    }
+foreach ($result as $row) {
+    array_push($a, $row['name']);
 }
 
 // get the q parameter from URL
 $q = $_REQUEST["q"];
-
 $hint = "";
 
 // lookup all hints from array if $q is different from ""
