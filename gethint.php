@@ -1,18 +1,6 @@
 <?php
-// error_reporting(E_ALL);
-// ini_set('display_errors', 1);
-// populate $a with all name column in grocery_items table
 // Connect to the database
-$host = 'localhost';
-$user = '76865732';
-$password = '76865732';
-$database = 'db_76865732';
-$conn = new mysqli($host, $user, $password, $database);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once 'connect.php';
 
 $sql = "SELECT name FROM grocery_items";
 $result = $conn->query($sql);

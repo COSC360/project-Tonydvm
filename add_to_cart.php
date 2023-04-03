@@ -4,16 +4,7 @@
 session_start();
 
 // Connect to the database
-$host = 'localhost';
-$user = '76865732';
-$password = '76865732';
-$database = 'db_76865732';
-$conn = new mysqli($host, $user, $password, $database);
-
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+require_once 'connect.php';
 
 // Get user ID from session
 $user_id = $_SESSION['user']['id'];

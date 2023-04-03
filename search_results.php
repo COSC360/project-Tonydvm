@@ -110,16 +110,7 @@
     <div class="body-container">
       <?php
       // Connect to the database
-      $host = 'localhost';
-      $user = '76865732';
-      $password = '76865732';
-      $database = 'db_76865732';
-      $conn = new mysqli($host, $user, $password, $database);
-
-      // Check connection
-      if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-      }
+      require_once 'connect.php';
 
       // Get search query and selected store and city from form submission
       $search_query = '%' . $_POST['item-name'] . '%';

@@ -51,16 +51,7 @@
   <main>
     <?php
     // Connect to the database
-    $host = 'localhost';
-    $user = '76865732';
-    $password = '76865732';
-    $database = 'db_76865732';
-    $conn = new mysqli($host, $user, $password, $database);
-
-    // Check connection
-    if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-    }
+    require_once 'connect.php';
 
     // Build query
     $sql = "SELECT grocery_items.name, grocery_items.description, grocery_items.weight, stores.name AS store_name, stores.city, grocery_item_prices.price, grocery_items.image_url
