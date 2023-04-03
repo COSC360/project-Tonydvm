@@ -62,7 +62,7 @@ a:hover {
 
 .header-wrapper {
     display: flex;  
-    background-color: rgb(30, 32, 3);
+    background-color: rgb(30, 32, 33);
     /* flex-flow: nowrap; */
     font-weight: bold;
     text-align: center; 
