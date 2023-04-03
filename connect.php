@@ -1,9 +1,10 @@
 <?php
     try {
-        // require_once($_SERVER['DOCUMENT_ROOT']."/connectDetails.php");
-        require_once($_SERVER['DOCUMENT_ROOT']."/home/tonydvm/public_html/connectDetails.php");
+        require_once '../../connectDetails.php';
 
-        echo $connString;
+        $connString = connString;
+        $user = user;
+        $pass = pass;
 
         $pdo = new PDO($connString, $user, $pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
