@@ -25,7 +25,7 @@ br {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #fafafa;
+    /* background: #fafafa; */
     overflow: hidden;
 }
 #logo{
@@ -40,7 +40,7 @@ br {
     background: #ffffff;
 }
 .form-input{
-    background: #fafafa;
+    /* background: #fafafa; */
     border: 1px solid #eeeeee;
     padding: 12px;
     width: 100%;
@@ -51,7 +51,7 @@ br {
 .form-button{
     background: #313131;
     border: 1px solid #ddd;
-    color: #ffffff;
+    /* color: #ffffff; */
     padding: 10px;
     width: 100%;
     text-transform: uppercase;
@@ -69,7 +69,7 @@ br {
 }
 
 #form {
-    background-color: grey;
+    /* background-color: grey; */
     width: 500px;
 }
 
@@ -84,7 +84,8 @@ a:visited {
 
 .header-wrapper {
     display: flex;  
-    flex-flow: nowrap;
+    background-color: rgb(30, 32, 33);
+    /* flex-flow: nowrap; */
     font-weight: bold;
     text-align: center; 
     padding: 1.5em;
@@ -94,4 +95,23 @@ a:visited {
 
 input:invalid{
     border: 1px solid red;
+}
+
+input {
+    border: 0;
+    background-color: rgb(50,53,55);
+    
+    /* border-radius: 52px; */
+    align-items: flex-start;
+    margin-left: auto;
+    margin-right: auto;
+    order: 2;
+    /* color: white; */
+    padding-right: 40em;
+    border-color: 0;
+    /* color: white; */
+    font-size: 1em;
+}
+body {
+    background-color: rgb(19,21,22);
 }
