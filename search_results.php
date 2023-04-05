@@ -64,6 +64,7 @@
       require_once 'connect.php';
 
       // Get search query and selected store and city from form submission
+      /*
       $search_query = '%' . $_POST['item-name'] . '%';
       $selected_city = $_POST['location'];
       $selected_store = $_POST['store'];
@@ -75,11 +76,36 @@
       if ($selected_store == null) {
         $selected_store = '';
       }
+      */
+
+      $search_query = isset($_POST['item-name']) ? '%' . $_POST['item-name'] . '%' : '%';
+      $selected_city = isset($_POST['location']) ? $_POST['location'] : '';
+      $selected_store = isset($_POST['store']) ? $_POST['store'] : '';
+
+      if (isset($_GET['category'])) {
+        $selected_category = $_GET['category'];
+      } else {
+        $selected_category = '%';
+      }
+
 
       // trim whitespace from search query
       $search_query = trim($search_query);
+      $sql = "SELECT grocery_items.id, grocery_items.name, grocery_items.description, grocery_items.image_url, stores.name AS store_name, grocery_item_prices.price
+      FROM grocery_items
+      JOIN grocery_item_prices ON grocery_items.id = grocery_item_prices.grocery_item_id
+      JOIN stores ON grocery_item_prices.store_id = stores.id
+      WHERE grocery_items.name LIKE ?
+      AND (grocery_items.category_name = ? OR ? = '%')
+      AND (stores.city = ? OR ? = '')
+      AND (stores.name = ? OR ? = '')
+      ORDER BY grocery_items.name ASC";
+
+      $stmt = $pdo->prepare($sql);
+      $stmt->execute([$search_query, $selected_category, $selected_category, $selected_city, $selected_city, $selected_store, $selected_store]);
 
       // Build and execute SQL query using prepared statements
+      /*
       $sql = "SELECT grocery_items.id, grocery_items.name, grocery_items.description, grocery_items.image_url, stores.name AS store_name, grocery_item_prices.price
       FROM grocery_items
       JOIN grocery_item_prices ON grocery_items.id = grocery_item_prices.grocery_item_id
@@ -91,6 +117,7 @@
 
       $stmt = $pdo->prepare($sql);
       $stmt->execute([$search_query, $selected_city, $selected_city, $selected_store, $selected_store]);
+      */
 
       $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
