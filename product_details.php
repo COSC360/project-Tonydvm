@@ -5,8 +5,8 @@
   <title>Product Details</title>
   <link rel="stylesheet" href="css/reset.css" />
   <link rel="stylesheet" href="css/landing.css" />
+  <!-- Include Chart.js Library -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 </head>
 
 <body>
@@ -21,30 +21,13 @@
     // Connect to the database
     require_once 'connect.php';
 
-    function getPriceHistory($groceryItemId, $dbConnection) {
-      $sql = "SELECT gip.store_id, s.name as store_name, gip.price, gip.price_date
-              FROM grocery_item_prices gip
-              JOIN stores s ON gip.store_id = s.id
-              WHERE gip.grocery_item_id = ? AND gip.price_date >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
-              ORDER BY gip.price_date ASC";
-
-      $stmt = $dbConnection->prepare($sql);
-      $stmt->execute([$groceryItemId]);
-
-      $priceHistoryData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-      return $priceHistoryData;
-  }
-
-  $groceryItemId = $_GET['id']; // The grocery item ID for which you want to fetch the price history
-  $priceHistoryData = getPriceHistory($groceryItemId, $pdo);
-
     // Build query
-    $sql = "SELECT grocery_items.name, grocery_items.description, grocery_items.weight, stores.name AS store_name, stores.city, grocery_item_prices.price, grocery_items.image_url
+    $sql = "SELECT grocery_items.name, grocery_items.description, grocery_items.weight, stores.name AS store_name, stores.city, grocery_item_prices.price, grocery_items.image_url, grocery_item_prices.price_date
               FROM grocery_items
               INNER JOIN grocery_item_prices ON grocery_items.id = grocery_item_prices.grocery_item_id
               INNER JOIN stores ON grocery_item_prices.store_id = stores.id
-              WHERE grocery_items.id = ?";
+              WHERE grocery_items.id = ?
+              ORDER BY grocery_item_prices.price_date DESC";
 
     // Prepare and execute query
     $stmt = $pdo->prepare($sql);
@@ -62,7 +45,48 @@
       echo "<p>Description: " . $row["description"] . "</p>";
       echo "<p>Store: " . $row["store_name"] . "</p>";
       echo "<p>Price: " . $row["price"] . "</p>";
+      echo "<p>Last Updated Date: " . $row["price_date"] . "</p>";
       echo "</div>";
+
+      // Generate price history data for chart
+      $price_history_labels = [];
+      $price_history_data = [];
+      foreach ($result as $price_row) {
+        $price_history_labels[] = $price_row['price_date'];
+        $price_history_data[] = $price_row['price'];
+      }
+
+      echo "<div class='price-history-chart'>";
+      echo "<canvas id='priceHistoryChart'></canvas>";
+      echo "</div>";
+
+      echo "<script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const priceHistoryLabels = " . json_encode(array_reverse($price_history_labels)) . ";
+        const priceHistoryData = " . json_encode(array_reverse($price_history_data)) . ";
+
+        const ctx = document.getElementById('priceHistoryChart').getContext('2d');
+        const priceHistoryChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: priceHistoryLabels,
+            datasets: [{
+              label: 'Price History',
+              data: priceHistoryData,
+              borderColor: 'rgba(75, 192, 192, 1)',
+              tension: 0.1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      });
+      </script>";
 
     } else {
       // No results found
@@ -127,64 +151,6 @@
     <div class="back-link">
       <a href="search_results.php">Back to Search Page</a>
     </div>
-
-    <div>
-        <canvas id="priceHistoryChart"></canvas>
-    </div>
-
-    <script>
-    const priceHistoryData = <?php echo json_encode($priceHistoryData); ?>;
-
-    const labels = Array.from(new Set(priceHistoryData.map(record => record.price_date)));
-    const datasets = [];
-
-    // Group price data by store
-    const groupedData = priceHistoryData.reduce((acc, record) => {
-        if (!acc.hasOwnProperty(record.store_id)) {
-            acc[record.store_id] = {
-                storeName: record.store_name,
-                data: []
-            };
-        }
-
-        acc[record.store_id].data.push({x: record.price_date, y: parseFloat(record.price)});
-        return acc;
-    }, {});
-
-    // Create datasets for the chart
-    Object.entries(groupedData).forEach(([storeId, data]) => {
-        datasets.push({
-            label: data.storeName,
-            data: data.data,
-            fill: false,
-            borderColor: 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')'
-        });
-    });
-
-    const ctx = document.getElementById('priceHistoryChart').getContext('2d');
-    const chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: datasets
-        },
-        options: {
-            responsive: true,
-            scales: {
-                x: {
-                    type: 'time',
-                    time: {
-                        unit: 'day'
-                    }
-                },
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-    </script>
-
   </main>
 </body>
 
