@@ -2,12 +2,13 @@
 <html>
   <head>
     <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/landing.css" />
     <link rel="stylesheet" href="css/forms.css" />
   </head>
   <header>
-    <div class="header-wrapper">
-      <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
-    </div>
+    <?php
+      require_once 'minHeader.php';
+    ?>
   </header>
 
   <body>

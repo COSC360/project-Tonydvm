@@ -34,7 +34,7 @@ h1 {
 }
 
 h2 {
-    font-size: 1em;
+    font-size: 1.5em;
 }
 
 h3 {
@@ -53,4 +53,12 @@ body {
 
 header {
     height: 6em;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+p {
+    font-size: 1em;
 }
