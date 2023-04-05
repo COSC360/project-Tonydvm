@@ -5,12 +5,9 @@ try {
     require_once 'connect.php';
 
 
-    // get the email and password from the form submission and store them in variables
-    $email = $_POST['email'];
-    $password = $_POST['password'];
- 
-    //$email = $_GET['email'];
-    //$password = $_GET['password'];
+    // get the email and password from the form submission and store them in variables 
+    $email = $_GET['email'];
+    $password = $_GET['password'];
 
     // sanitize the email and password
     // check for empty email and password
@@ -27,16 +24,9 @@ try {
 
 
     // create a query to select the user from the database
-    $sql = "SELECT * FROM users WHERE email = ?";
-    $statement = $pdo->prepare($sql);
-    $statement->execute([$email]);
-    $user = $statement->fetch(PDO::FETCH_ASSOC);
-    
-    /*
     $sql = "SELECT * FROM users WHERE email = ? AND password = ?";
     $statement = $pdo->prepare($sql);
     $statement->execute([$email, $password]);
-    */
 
     // extract user id from the query result
     $userId = $statement->fetchColumn(0);
@@ -56,14 +46,6 @@ try {
     // }
 
     // if the user exists
-    if ($user && password_verify($password, $user['password'])) {
-        session_start();
-        $_SESSION['user'] = $user['id'];
-        header("Location: landing.php");
-    } else {
-        header("Location: login.php");
-    }
-    /*
     if ($statement->rowCount() > 0) {
         header("Location: landing.php");
         // create session state and redirect to landing page
@@ -73,7 +55,6 @@ try {
     } else {
         header("Location: login.php");
     }
-    */
 } catch (PDOException $e) {
     die($e->getMessage());
 }
