@@ -24,9 +24,16 @@ try {
 
 
     // create a query to select the user from the database
+    $sql = "SELECT * FROM users WHERE email = ?";
+    $statement = $pdo->prepare($sql);
+    $statement->execute([$email]);
+    $user = $statement->fetch(PDO::FETCH_ASSOC);
+    
+    /*
     $sql = "SELECT * FROM users WHERE email = ? AND password = ?";
     $statement = $pdo->prepare($sql);
     $statement->execute([$email, $password]);
+    */
 
     // extract user id from the query result
     $userId = $statement->fetchColumn(0);
@@ -46,6 +53,14 @@ try {
     // }
 
     // if the user exists
+    if ($user && password_verify($password, $user['password'])) {
+        session_start();
+        $_SESSION['user'] = $user['id'];
+        header("Location: landing.php");
+    } else {
+        header("Location: login.php");
+    }
+    /*
     if ($statement->rowCount() > 0) {
         header("Location: landing.php");
         // create session state and redirect to landing page
@@ -55,6 +70,7 @@ try {
     } else {
         header("Location: login.php");
     }
+    */
 } catch (PDOException $e) {
     die($e->getMessage());
 }
