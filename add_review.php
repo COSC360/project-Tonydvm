@@ -5,34 +5,25 @@ session_start();
 
 // Check if the user is logged in
 if (!isset($_SESSION['user'])) {
-  header('Location: login.php');
-  exit();
+    header('Location: login.php');
+    exit();
 }
 
-// Connect to the database
-$host = 'localhost';
-$user = '76865732';
-$password = '76865732';
-$database = 'db_76865732';
-$conn = new mysqli($host, $user, $password, $database);
 
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+require_once 'connect.php';
 
 // Get user ID from session
 $user_id = $_SESSION['user']['id'];
 
 // Insert review into user_reviews
 $sql = "INSERT INTO user_reviews (user_id, grocery_item_id, rating, comment) VALUES (?, ?, ?, ?)";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param('iiis', $user_id, $_POST['product_id'], $_POST['rating'], $_POST['comment']);
-$stmt->execute();
+$stmt = $pdo->prepare($sql);
+$stmt->execute([$user_id, $_POST['product_id'], $_POST['rating'], $_POST['comment']]);
 
+// Close statement
+$stmt = null;
 // Close connection
-$stmt->close();
-$conn->close();
+$pdo = null;
 
 // Redirect to product_details.php
 header('Location: product_details.php?id=' . $_POST['product_id']);

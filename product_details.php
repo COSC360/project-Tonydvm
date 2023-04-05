@@ -17,16 +17,7 @@
   <main>
     <?php
     // Connect to the database
-    $host = 'localhost';
-    $user = '76865732';
-    $password = '76865732';
-    $database = 'db_76865732';
-    $conn = new mysqli($host, $user, $password, $database);
-
-    // Check connection
-    if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-    }
+    require_once 'connect.php';
 
     // Build query
     $sql = "SELECT grocery_items.name, grocery_items.description, grocery_items.weight, stores.name AS store_name, stores.city, grocery_item_prices.price, grocery_items.image_url
@@ -36,15 +27,14 @@
               WHERE grocery_items.id = ?";
 
     // Prepare and execute query
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('i', $_GET['id']);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$_GET['id']]);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Check for results
-    if ($result->num_rows > 0) {
+    if (count($result) > 0) {
       // Display product details
-      $row = $result->fetch_assoc();
+      $row = $result[0];
       echo "<div class='product-details'>";
       echo "<img src='" . $row["image_url"] . "' alt='" . $row["name"] . "' width='500'>";
       echo "<h2>" . $row["name"] . "</h2>";
@@ -88,10 +78,9 @@
     FROM user_reviews
     INNER JOIN users ON user_reviews.user_id = users.id
     WHERE user_reviews.grocery_item_id = ?";
-    $stmt_reviews = $conn->prepare($sql_reviews);
-    $stmt_reviews->bind_param('i', $_GET['id']);
-    $stmt_reviews->execute();
-    $result_reviews = $stmt_reviews->get_result();
+    $stmt_reviews = $pdo->prepare($sql_reviews);
+    $stmt_reviews->execute([$_GET['id']]);
+    $result_reviews = $stmt_reviews->fetchAll(PDO::FETCH_ASSOC);
 
 
     if ($result_reviews->num_rows > 0) {
@@ -108,9 +97,10 @@
     }
 
 
-    // Close connection
-    $stmt->close();
-    $conn->close();
+    // Close statement and connection
+    $stmt = null;
+    $stmt_reviews = null;
+    $pdo = null;
 
     ?>
 
