@@ -126,10 +126,9 @@
     $stmt_reviews->execute([$_GET['id']]);
     $result_reviews = $stmt_reviews->fetchAll(PDO::FETCH_ASSOC);
 
-
-    if ($result_reviews->num_rows > 0) {
+    if (count($result_reviews) > 0) {
       echo "<h3>User Reviews:</h3>";
-      while ($row_review = $result_reviews->fetch_assoc()) {
+      foreach ($result_reviews as $row_review) {
         echo '<div class="review">';
         echo '<p><strong>Rating:</strong> ' . $row_review["rating"] . '/5</p>';
         echo '<p><strong>Comment:</strong> ' . $row_review["comment"] . '</p>';
