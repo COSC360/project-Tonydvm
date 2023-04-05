@@ -3,16 +3,15 @@
 
 <head>
   <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/landing.css" />
   <link rel="stylesheet" href="css/forms.css" />
 </head>
 
 <body>
   <header>
-    <div class="header-wrapper">
-      <a href="landing.php">
-        <h1 id="logo">PANTRY</h1>
-      </a>
-    </div>
+    <?php
+      require_once 'minHeader.php';
+    ?>
   </header>
   <div class="wrap">
     <form class="account-form" name="signUpForm" method="post" action="createAccount.php">
@@ -44,7 +43,7 @@
         <input type="submit" name="submit" class="form-button" value="Create Account" />
       </div>
       <div class="form-footer">
-        <a href="login.html">Login Instead</a>
+        <a href="login.php">Login Instead</a>
       </div>
     </form>
   </div>

@@ -66,7 +66,7 @@
       echo '<button type="submit">Add to Cart</button>';
       echo '</form>';
     } else {
-      echo '<p>Please <a href="login.html">log in</a> to add this item to your cart.</p>';
+      echo '<p>Please <a href="login.php">log in</a> to add this item to your cart.</p>';
     }
 
     if (isset($_SESSION['user'])) {
@@ -80,7 +80,7 @@
       echo '<button type="submit">Submit Review</button>';
       echo '</form>';
     } else {
-      echo '<p>Please <a href="login.html">log in</a> to add a review.</p>';
+      echo '<p>Please <a href="login.php">log in</a> to add a review.</p>';
     }
 
     // Fetch reviews for the current product
