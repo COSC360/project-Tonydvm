@@ -31,8 +31,8 @@
         </form>
 
         </div>
-        <a href="createAccount.php" id="createAccount"> <h2>Create Account</h2></a>
-        <a href="login.html" id="login">
+        <a href="create_account.php" id="createAccount"> <h2>Create Account</h2></a>
+        <a href="login.php" id="login">
         <div class="button">
         <h2>Log In</h2>
         </div>

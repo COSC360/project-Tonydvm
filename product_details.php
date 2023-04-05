@@ -5,46 +5,39 @@
   <title>Product Details</title>
   <link rel="stylesheet" href="css/reset.css" />
   <link rel="stylesheet" href="css/landing.css" />
+  <!-- Include Chart.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
   <header>
     <?php
-      require_once 'minHeader.php';
+      require_once 'header_min.php';
     ?>
   </header>
 
   <main>
     <?php
     // Connect to the database
-    $host = 'localhost';
-    $user = '76865732';
-    $password = '76865732';
-    $database = 'db_76865732';
-    $conn = new mysqli($host, $user, $password, $database);
-
-    // Check connection
-    if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-    }
+    require_once 'connect.php';
 
     // Build query
-    $sql = "SELECT grocery_items.name, grocery_items.description, grocery_items.weight, stores.name AS store_name, stores.city, grocery_item_prices.price, grocery_items.image_url
+    $sql = "SELECT grocery_items.name, grocery_items.description, grocery_items.weight, stores.name AS store_name, stores.city, grocery_item_prices.price, grocery_items.image_url, grocery_item_prices.price_date
               FROM grocery_items
               INNER JOIN grocery_item_prices ON grocery_items.id = grocery_item_prices.grocery_item_id
               INNER JOIN stores ON grocery_item_prices.store_id = stores.id
-              WHERE grocery_items.id = ?";
+              WHERE grocery_items.id = ?
+              ORDER BY grocery_item_prices.price_date DESC";
 
     // Prepare and execute query
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('i', $_GET['id']);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$_GET['id']]);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Check for results
-    if ($result->num_rows > 0) {
+    if (count($result) > 0) {
       // Display product details
-      $row = $result->fetch_assoc();
+      $row = $result[0];
       echo "<div class='product-details'>";
       echo "<img src='" . $row["image_url"] . "' alt='" . $row["name"] . "' width='500'>";
       echo "<h2>" . $row["name"] . "</h2>";
@@ -52,7 +45,48 @@
       echo "<p>Description: " . $row["description"] . "</p>";
       echo "<p>Store: " . $row["store_name"] . "</p>";
       echo "<p>Price: " . $row["price"] . "</p>";
+      echo "<p>Last Updated Date: " . $row["price_date"] . "</p>";
       echo "</div>";
+
+      // Generate price history data for chart
+      $price_history_labels = [];
+      $price_history_data = [];
+      foreach ($result as $price_row) {
+        $price_history_labels[] = $price_row['price_date'];
+        $price_history_data[] = $price_row['price'];
+      }
+
+      echo "<div class='price-history-chart'>";
+      echo "<canvas id='priceHistoryChart'></canvas>";
+      echo "</div>";
+
+      echo "<script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const priceHistoryLabels = " . json_encode(array_reverse($price_history_labels)) . ";
+        const priceHistoryData = " . json_encode(array_reverse($price_history_data)) . ";
+
+        const ctx = document.getElementById('priceHistoryChart').getContext('2d');
+        const priceHistoryChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: priceHistoryLabels,
+            datasets: [{
+              label: 'Price History',
+              data: priceHistoryData,
+              borderColor: 'rgba(75, 192, 192, 1)',
+              tension: 0.1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      });
+      </script>";
 
     } else {
       // No results found
@@ -66,7 +100,7 @@
       echo '<button type="submit">Add to Cart</button>';
       echo '</form>';
     } else {
-      echo '<p>Please <a href="login.html">log in</a> to add this item to your cart.</p>';
+      echo '<p>Please <a href="login.php">log in</a> to add this item to your cart.</p>';
     }
 
     if (isset($_SESSION['user'])) {
@@ -80,7 +114,7 @@
       echo '<button type="submit">Submit Review</button>';
       echo '</form>';
     } else {
-      echo '<p>Please <a href="login.html">log in</a> to add a review.</p>';
+      echo '<p>Please <a href="login.php">log in</a> to add a review.</p>';
     }
 
     // Fetch reviews for the current product
@@ -88,10 +122,9 @@
     FROM user_reviews
     INNER JOIN users ON user_reviews.user_id = users.id
     WHERE user_reviews.grocery_item_id = ?";
-    $stmt_reviews = $conn->prepare($sql_reviews);
-    $stmt_reviews->bind_param('i', $_GET['id']);
-    $stmt_reviews->execute();
-    $result_reviews = $stmt_reviews->get_result();
+    $stmt_reviews = $pdo->prepare($sql_reviews);
+    $stmt_reviews->execute([$_GET['id']]);
+    $result_reviews = $stmt_reviews->fetchAll(PDO::FETCH_ASSOC);
 
 
     if ($result_reviews->num_rows > 0) {
@@ -108,9 +141,10 @@
     }
 
 
-    // Close connection
-    $stmt->close();
-    $conn->close();
+    // Close statement and connection
+    $stmt = null;
+    $stmt_reviews = null;
+    $pdo = null;
 
     ?>
 

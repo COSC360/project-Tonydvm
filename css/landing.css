@@ -60,6 +60,10 @@ a:hover {
     color: blue;
 }
 
+header {
+    padding-bottom: 1.5em;
+}
+
 .header-wrapper {
     display: flex;  
     background-color: rgb(30, 32, 33);
@@ -91,12 +95,16 @@ textarea:focus, input:focus{
     background-color: rgb(37,40,42);
     margin: 1em;
     padding: 2em;  
+    border-radius: 1em;
+    -webkit-margin-collapse: collapse;
 }
 .right-container{
     width: 20%;
     background-color: rgb(37,40,42);
     margin: 1em;
     padding: 2em;
+    border-radius: 1em;
+    -webkit-margin-collapse: collapse;
 }
 
 .search-form {
@@ -117,4 +125,46 @@ textarea:focus, input:focus{
     margin-right: auto;
     order: 2;
     width: max-content;
+}
+
+.product {
+    border: 0;
+    background-color: rgb(50,53,55);
+    padding: 1em;
+    margin: 1em;
+    border-radius: 1em;
+    align-items: flex-start;
+    margin-left: auto;
+    margin-right: auto;
+    order: 2;
+
+}
+
+.product:hover {
+    background-color: rgb(30, 32, 33);
+}
+
+.category-container {
+    background-color: rgb(37,40,42);
+    /* horizontal display */
+    display: flex;
+    flex-direction: row;
+}
+
+
+.category{
+    background-color: rgb(50,53,55);
+    padding: 1em;
+    margin: 0.5em;
+    border-radius: 1em;
+}
+
+.category:hover {
+    background-color: rgb(30, 32, 33);
+}
+.container{
+    background-color: rgb(37,40,42);
+    margin: 1em;
+    padding: 2em;
+    border-radius: 1em;
 }

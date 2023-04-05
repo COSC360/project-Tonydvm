@@ -2,12 +2,13 @@
 <html>
   <head>
     <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/landing.css" />
     <link rel="stylesheet" href="css/forms.css" />
   </head>
   <header>
-    <div class="header-wrapper">
-      <a href="landing.php"><h1 id="logo">PANTRY</h1></a>
-    </div>
+    <?php
+      require_once 'header_min.php';
+    ?>
   </header>
 
   <body>
@@ -15,7 +16,7 @@
       <form
         class="account-form"
         name="login"
-        action="validateLogin.php"
+        action="validate_login.php"
         method="get"
       >
         <div class="form-header">
@@ -40,11 +41,10 @@
           />
         </div>
         <div class="form-group">
-          <button class="form-button" type="submit">Login</button>
+          <input type="submit" value="Login" class="form-button" />
         </div>
         <div class="form-footer">
-          <a href="createAccount.php">Sign-Up Instead</a>
-          <!-- <a href="#">Forgot Your Password?</a> -->
+          <a href="create_account.php">Sign-Up Instead</a>
         </div>
       </form>
     </div>

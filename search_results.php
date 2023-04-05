@@ -7,29 +7,14 @@
   <link rel="stylesheet" href="css/landing.css">
   <script src="js/livesearch.js"></script>
 
-  <script>
-    function showHint(str) {
-      if (str.length == 0) {
-        document.getElementById("txtHint").innerHTML = "";
-        return;
-      } else {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function () {
-          if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("txtHint").innerHTML = this.responseText;
-          }
-        };
-        xmlhttp.open("GET", "gethint.php?q=" + str, true);
-        xmlhttp.send();
-      }
-    }
+  <script src="showHint.js">
   </script>
 </head>
 
 <body>
   <header>
     <?php
-      require_once 'minHeader.php';
+      require_once 'header_min.php';
     ?>
   </header>
   <main>
@@ -74,18 +59,9 @@
     <p>Suggestions: <span id="txtHint"></span></p>
 
     <div class="body-container">
-      <?php
-      // Connect to the database
-      $host = 'localhost';
-      $user = '76865732';
-      $password = '76865732';
-      $database = 'db_76865732';
-      $conn = new mysqli($host, $user, $password, $database);
-
-      // Check connection
-      if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-      }
+    <?php
+      // Include the connect.php file to establish a connection using the $pdo variable
+      require_once 'connect.php';
 
       // Get search query and selected store and city from form submission
       $search_query = '%' . $_POST['item-name'] . '%';
@@ -113,18 +89,17 @@
       AND (stores.name = ? OR ? = '')
       ORDER BY grocery_items.name ASC";
 
-      $stmt = $conn->prepare($sql);
-      $stmt->bind_param('sssss', $search_query, $selected_city, $selected_city, $selected_store, $selected_store);
-      $stmt->execute();
+      $stmt = $pdo->prepare($sql);
+      $stmt->execute([$search_query, $selected_city, $selected_city, $selected_store, $selected_store]);
 
-      $result = $stmt->get_result();
+      $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
       // Check if there are any results
-      if ($result->num_rows > 0) {
+      if (count($result) > 0) {
         echo "<table>";
         echo "<tr><th>Image</th><th>ID</th><th>Name</th><th>Price</th></tr>";
         // Output data of each row
-        while ($row = $result->fetch_assoc()) {
+        foreach ($result as $row) {
           echo "<tr>";
           echo "<td><img src='" . $row["image_url"] . "' alt='" . $row["name"] . "' width='100' height='100'></td>";
           echo "<td>" . $row["id"] . "</td>";
@@ -137,9 +112,9 @@
         echo "No results found.";
       }
 
-      // Close connection
-      $stmt->close();
-      $conn->close();
+      // Close statement and connection
+      $stmt = null;
+      $pdo = null;
       ?>
     </div>
   </main>
