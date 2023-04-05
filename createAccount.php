@@ -36,11 +36,13 @@
           <h2>Upload Profile Picture</h2>
         </label>
         <br />
-        <p style="color:black"> if you don't upload a picture, a default one will be used </p>
+        <p> if you don't upload a picture, a default one will be used </p>
         <br />
         <input type="file" name="image" class="form-input" placeholder="image" />
       </div>
-      <button class="form-button" type="submit">Create Account</button>
+      <div class="form-group">
+        <input type="submit" name="submit" class="form-button" value="Create Account" />
+      </div>
       <div class="form-footer">
         <a href="login.html">Login Instead</a>
       </div>
