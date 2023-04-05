@@ -10,11 +10,11 @@
 <body>
   <header>
     <?php
-      require_once 'minHeader.php';
+      require_once 'header_min.php';
     ?>
   </header>
   <div class="wrap">
-    <form class="account-form" name="signUpForm" method="post" action="createAccount.php">
+    <form class="account-form" name="signUpForm" method="post" action="create_account.php">
       <div class="form-header">
         <h2>Create an Account</h2>
       </div>

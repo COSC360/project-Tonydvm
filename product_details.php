@@ -12,7 +12,7 @@
 <body>
   <header>
     <?php
-      require_once 'minHeader.php';
+      require_once 'header_min.php';
     ?>
   </header>
 

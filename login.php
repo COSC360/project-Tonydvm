@@ -7,7 +7,7 @@
   </head>
   <header>
     <?php
-      require_once 'minHeader.php';
+      require_once 'header_min.php';
     ?>
   </header>
 
@@ -16,7 +16,7 @@
       <form
         class="account-form"
         name="login"
-        action="validateLogin.php"
+        action="validate_login.php"
         method="get"
       >
         <div class="form-header">
@@ -44,7 +44,7 @@
           <input type="submit" value="Login" class="form-button" />
         </div>
         <div class="form-footer">
-          <a href="createAccount.php">Sign-Up Instead</a>
+          <a href="create_account.php">Sign-Up Instead</a>
         </div>
       </form>
     </div>

@@ -19,7 +19,7 @@
             document.getElementById("txtHint").innerHTML = this.responseText;
           }
         };
-        xmlhttp.open("GET", "gethint.php?q=" + str, true);
+        xmlhttp.open("GET", "get_hint.php?q=" + str, true);
         xmlhttp.send();
       }
     }
@@ -29,7 +29,7 @@
 <body>
   <header>
     <?php
-      require_once 'minHeader.php';
+      require_once 'header_min.php';
     ?>
   </header>
   <main>
