@@ -13,12 +13,10 @@
 
   <body>
     <div class="wrap">
-      <form
-        class="account-form"
-        name="login"
-        action="validate_login.php"
-        method="get"
-      >
+      <form class="account-form" name="login" action="validate_login.php" method="post">
+
+    
+      
         <div class="form-header">
           <h2>Login</h2>
         </div>

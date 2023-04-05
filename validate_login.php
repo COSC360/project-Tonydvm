@@ -5,9 +5,12 @@ try {
     require_once 'connect.php';
 
 
-    // get the email and password from the form submission and store them in variables 
-    $email = $_GET['email'];
-    $password = $_GET['password'];
+    // get the email and password from the form submission and store them in variables
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+ 
+    //$email = $_GET['email'];
+    //$password = $_GET['password'];
 
     // sanitize the email and password
     // check for empty email and password
