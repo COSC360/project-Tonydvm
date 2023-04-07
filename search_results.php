@@ -2,49 +2,51 @@
 <html>
 
 <head>
-    <title>Search Results</title>
-    <link rel="stylesheet" href="css/reset.css" />
-    <link rel="stylesheet" href="css/landing.css">
-    <script src="js/livesearch.js"></script>
+  <title>Search Results</title>
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/landing.css">
+  <script src="js/livesearch.js"></script>
 
-    <script src="showHint.js">
-    </script>
+  <script src="showHint.js">
+  </script>
 </head>
 
 <body>
-    <header>
-        <?php
+  <header>
+    <?php
     require_once 'header_min.php';
     ?>
-    </header>
-    <main>
-        <?php 
-    include_once 'breadcrumbs.php';
-    ?>
-        <div class="body-container">
-            <div class="right-container">
-                <h1>Search </h1>
-                <!-- form to search, filter, and sort -->
-                <!-- use a table -->
-                <form action="search_results.php" method="post">
-                    <table>
-                        <tr>
-                            <td>
-                                <label for="item-name">Item Name</label>
-                            </td>
-                            <td>
-                                <input type="text" name="item-name" id="item-name" onkeyup="showHint(this.value)">
-                            </td>
-                        </tr>
-                        <p>Suggestions: <span id="txtHint"></span></p>
-                        <tr>
-                            <td>
-                                <label for="location">Location</label>
-                            </td>
-                            <td>
-                                <select name="location" id="location">
-                                    <option value="">All</option>
-                                    <?php
+  </header>
+  <main>
+    <div class="breadcrumb">
+      <?php
+      echo "<p><a href='landing.php'>Home</a> > Search Results</p>";
+      ?>
+    </div>
+    <div class="body-container">
+      <div class="right-container">
+        <h1>Search </h1>
+        <!-- form to search, filter, and sort -->
+        <!-- use a table -->
+        <form action="search_results.php" method="post">
+          <table>
+            <tr>
+              <td>
+                <label for="item-name">Item Name</label>
+              </td>
+              <td>
+                <input type="text" name="item-name" id="item-name" onkeyup="showHint(this.value)">
+              </td>
+            </tr>
+            <p>Suggestions: <span id="txtHint"></span></p>
+            <tr>
+              <td>
+                <label for="location">Location</label>
+              </td>
+              <td>
+                <select name="location" id="location">
+                  <option value="">All</option>
+                  <?php
                   // Include the connect.php file to establish a connection using the $pdo variable
                   require_once 'connect.php';
 
@@ -67,17 +69,17 @@
                     echo "<option value=''>No cities found.</option>";
                   }
                   ?>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label for="store">Store</label>
-                            </td>
-                            <td>
-                                <select name="store" id="store">
-                                    <option value="">All</option>
-                                    <?php
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label for="store">Store</label>
+              </td>
+              <td>
+                <select name="store" id="store">
+                  <option value="">All</option>
+                  <?php
                   // Include the connect.php file to establish a connection using the $pdo variable
                   require_once 'connect.php';
 
@@ -100,18 +102,18 @@
                     echo "<option value=''>No stores found.</option>";
                   }
                   ?>
-                                </select>
-                            </td>
-                        </tr>
-                        <!-- category -->
-                        <tr>
-                            <td>
-                                <label for="category">Category</label>
-                            </td>
-                            <td>
-                                <select name="category" id="category">
-                                    <option value="">All</option>
-                                    <?php
+                </select>
+              </td>
+            </tr>
+            <!-- category -->
+            <tr>
+              <td>
+                <label for="category">Category</label>
+              </td>
+              <td>
+                <select name="category" id="category">
+                  <option value="">All</option>
+                  <?php
                   // Include the connect.php file to establish a connection using the $pdo variable
                   require_once 'connect.php';
                   // table categories (id, name)
@@ -134,37 +136,37 @@
                     echo "<option value=''>No categories found.</option>";
                   }
                   ?>
-                                </select>
-                            </td>
-                        </tr>
+                </select>
+              </td>
+            </tr>
 
-                        <tr>
-                            <td>
-                                <label for="sort">Sort</label>
-                            </td>
-                            <td>
-                                <select name="sort" id="sort">
-                                    <option value="name-asc">Name (A-Z)</option>
-                                    <option value="name-desc">Name (Z-A)</option>
-                                    <option value="price-asc">Price (Low to High)</option>
-                                    <option value="price-desc">Price (High to Low)</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <input type="submit" value="Search">
-                            </td>
-                        </tr>
-                    </table>
-                </form>
+            <tr>
+              <td>
+                <label for="sort">Sort</label>
+              </td>
+              <td>
+                <select name="sort" id="sort">
+                  <option value="name-asc">Name (A-Z)</option>
+                  <option value="name-desc">Name (Z-A)</option>
+                  <option value="price-asc">Price (Low to High)</option>
+                  <option value="price-desc">Price (High to Low)</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input type="submit" value="Search">
+              </td>
+            </tr>
+          </table>
+        </form>
 
-            </div>
+      </div>
 
-            <div class="left-container">
+      <div class="left-container">
 
-                <h1>Results </h1>
-                <?php
+        <h1>Results </h1>
+        <?php
         // Include the connect.php file to establish a connection using the $pdo variable
         require_once 'connect.php';
 
@@ -236,8 +238,8 @@
 
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         ?>
-                <div class="product-container">
-                    <?php
+        <div class="product-container">
+          <?php
           // Check if there are any results
           if (count($result) > 0) {
             foreach ($result as $row) {
@@ -257,10 +259,10 @@
           }
           ?>
 
-                </div>
-            </div>
         </div>
-    </main>
+      </div>
+    </div>
+  </main>
 </body>
 
 </html>

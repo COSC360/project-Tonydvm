@@ -17,10 +17,16 @@
     </header>
 
     <main>
-        <div class="back-button">
-            <a href="search_results.php">
-                <h1>Back to Search Page<h1>
-            </a>
+        <div class="breadcrumb">
+            <?php
+      // create links in breadcrumbs for navigation 
+      // show landing.php, then search_results.php, then product_details.php
+
+      // get the current name from get request
+      $name = $_GET['id'];
+      // display as links
+      echo "<p><a href='landing.php'>Home</a> > <a href='search_results.php'>Search Results</a> > id:$name</p>";
+      ?>
         </div>
         <div class="body-container">
             <div class="right-container">

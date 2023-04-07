@@ -16,6 +16,11 @@
     </div>
   </header>
   <div class="main">
+    <div class="breadcrumb">
+      <?php
+      echo "<p><a href='landing.php'>Home</a> > Preferences</p>";
+      ?>
+    </div>
     <?php
     // error_reporting(E_ALL);
     // ini_set('display_errors', 1);
@@ -44,18 +49,30 @@
 
       // show image and user info
       while ($row = $statement->fetch()) {
+        // use table
         echo '
+        <div class="user-image">
+          <h2>User Image</h2>
+          <img src="' . $statement2->fetchColumn() . '" alt="user image" width="100">
+        </div>
           <div class="user-info">
-            <div class="user-image">
-              <img src="' . $statement2->fetchColumn() . '" alt="user image" width="500" />
-            </div>
-            <div class="user-info-text">
-              <h2> User Name: ' . $row['username'] . '</h2>
-              <h2> Email: ' . $row['email'] . '</h2>
-              <h2> Password: ' . $row['password'] . '</h2>
-            </div>
+            <h2>User Info</h2>
+            <table>
+              <tr>
+                <td>Username:</td>
+                <td>' . $row['username'] . '</td>
+              </tr>
+              <tr>
+                <td>Email:</td>
+                <td>' . $row['email'] . '</td>
+              </tr>
+              <tr>
+                <td>Password:</td>
+                <td>' . $row['password'] . '</td>
+              </tr>
+            </table>
           </div>
-          ';
+        ';
       }
       // if role is admin, include options to add price to grocery_item_prices table (id, grocery_item_id, store_id, price, price_date) from list of products from grocery_items table (id, name, brand, category_name, description, image_url, weight)
       if ($role == 'admin') {
@@ -105,7 +122,6 @@
       if (isset($_GET['success'])) {
         echo '<h2>' . $_GET['success adding price'] . '</h2>';
       }
-
     } catch (PDOException $e) {
       die($e->getMessage());
     }
