@@ -2,34 +2,34 @@
 <html>
 
 <head>
-  <title>Search Results</title>
-  <link rel="stylesheet" href="css/reset.css" />
-  <link rel="stylesheet" href="css/landing.css">
-  <script src="js/livesearch.js"></script>
+    <title>Search Results</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/landing.css">
+    <script src="js/livesearch.js"></script>
 
-  <script src="showHint.js">
-  </script>
+    <script src="showHint.js">
+    </script>
 </head>
 
 <body>
-  <header>
-    <?php
+    <header>
+        <?php
     require_once 'header_min.php';
     ?>
-  </header>
-  <main>
-    <div class="body-container">
-      <div class="right-container">
-        <h1>Search </h1>
-        <!-- form to search, filter, and sort -->
-        <form action="search_results.php" method="post">
-          <label for="item-name">Search:</label>
-          <input type="text" id="item-name" name="item-name" onkeyup="showHint(this.value)">
-          <p>Suggestions: <span id="txtHint"></span></p>
-          <label for="location">Location:</label>
-          <select id="location" name="location">
-            <option value="">All</option>
-            <?php
+    </header>
+    <main>
+        <div class="body-container">
+            <div class="right-container">
+                <h1>Search </h1>
+                <!-- form to search, filter, and sort -->
+                <form action="search_results.php" method="post">
+                    <label for="item-name">Search:</label>
+                    <input type="text" id="item-name" name="item-name" onkeyup="showHint(this.value)">
+                    <p>Suggestions: <span id="txtHint"></span></p>
+                    <label for="location">Location:</label>
+                    <select id="location" name="location">
+                        <option value="">All</option>
+                        <?php
             // Include the connect.php file to establish a connection using the $pdo variable
             require_once 'connect.php';
 
@@ -47,11 +47,11 @@
               }
             }
             ?>
-          </select>
-          <label for="store">Store:</label>
-          <select id="store" name="store">
-            <option value="">All</option>
-            <?php
+                    </select>
+                    <label for="store">Store:</label>
+                    <select id="store" name="store">
+                        <option value="">All</option>
+                        <?php
             // Include the connect.php file to establish a connection using the $pdo variable
             require_once 'connect.php';
 
@@ -69,21 +69,21 @@
               }
             }
             ?>
-          </select>
-          <label for="sort">Sort By:</label>
-          <select id="sort" name="sort">
-            <option value="name-asc">Name (A-Z)</option>
-            <option value="name-desc">Name (Z-A)</option>
-            <option value="price-asc">Price (Low to High)</option>
-            <option value="price-desc">Price (High to Low)</option>
-          </select>
-          <input type="submit" value="Search">
-        </form>
-      </div>
+                    </select>
+                    <label for="sort">Sort By:</label>
+                    <select id="sort" name="sort">
+                        <option value="name-asc">Name (A-Z)</option>
+                        <option value="name-desc">Name (Z-A)</option>
+                        <option value="price-asc">Price (Low to High)</option>
+                        <option value="price-desc">Price (High to Low)</option>
+                    </select>
+                    <input type="submit" value="Search">
+                </form>
+            </div>
 
-      <div class="left-container">
-        <h1>Results </h1>
-        <?php
+            <div class="left-container">
+                <h1>Results </h1>
+                <?php
         // Include the connect.php file to establish a connection using the $pdo variable
         require_once 'connect.php';
 
@@ -143,8 +143,8 @@
 
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         ?>
-        <div class="product-container">
-          <?php
+                <div class="product-container">
+                    <?php
           // Check if there are any results
           if (count($result) > 0) {
             foreach ($result as $row) {
@@ -164,10 +164,10 @@
           }
           ?>
 
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </main>
+    </main>
 </body>
 
 </html>
