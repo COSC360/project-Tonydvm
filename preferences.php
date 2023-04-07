@@ -50,6 +50,7 @@
       // show image and user info
       while ($row = $statement->fetch()) {
         // use table
+        echo '<div class="preferences">';
         echo '
         <div class="user-image">
           <h2>User Image</h2>
@@ -72,6 +73,7 @@
               </tr>
             </table>
           </div>
+        </div>
         ';
       }
       // if role is admin, include options to add price to grocery_item_prices table (id, grocery_item_id, store_id, price, price_date) from list of products from grocery_items table (id, name, brand, category_name, description, image_url, weight)
