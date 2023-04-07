@@ -2,23 +2,23 @@
 <html>
 
 <head>
-    <title>Product Details</title>
-    <link rel="stylesheet" href="css/reset.css" />
-    <link rel="stylesheet" href="css/landing.css" />
-    <!-- Include Chart.js Library -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>Product Details</title>
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/landing.css" />
+  <!-- Include Chart.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-    <header>
-        <?php
+  <header>
+    <?php
     require_once 'header_min.php';
     ?>
-    </header>
+  </header>
 
-    <main>
-        <div class="breadcrumb">
-            <?php
+  <main>
+    <div class="breadcrumb">
+      <?php
       // create links in breadcrumbs for navigation 
       // show landing.php, then search_results.php, then product_details.php
 
@@ -27,11 +27,11 @@
       // display as links
       echo "<p><a href='landing.php'>Home</a> > <a href='search_results.php'>Search Results</a> > id:$name</p>";
       ?>
-        </div>
-        <div class="body-container">
-            <div class="right-container">
+    </div>
+    <div class="body-container">
+      <div class="right-container">
 
-                <?php
+        <?php
         // Connect to the database
         require_once 'connect.php';
 
@@ -71,14 +71,14 @@
           echo '<input type="submit" value="Add to Watchlist">';
           echo '</form>';
         } else {
-          echo '<p>Please <a href="login.php">log in</a> to add this item to your cart.</p>';
+          echo '<p>Please <a href="login.php">log in</a> to add this item to your watchlist.</p>';
         }
         ?>
 
-            </div>
-            <div class="left-container">
-                <div class="chart-container">
-                    <?php
+      </div>
+      <div class="left-container">
+        <div class="chart-container">
+          <?php
           echo "<p>Last Updated: " . date('F j, Y', strtotime($row["price_date"]));
           // show how long ago that was 
           $date = new DateTime($row["price_date"]);
@@ -146,14 +146,14 @@
                     });
                     </script>";
           ?>
-                </div>
-            </div>
         </div>
-        <!-- <div class="comments-container"> -->
-        <!-- body container -->
-        <div class="body-container">
-            <div class="left container">
-                <?php
+      </div>
+    </div>
+    <!-- <div class="comments-container"> -->
+    <!-- body container -->
+    <div class="body-container">
+      <div class="left container">
+        <?php
         if (isset($_SESSION['user'])) {
           // h2 add a review
           echo '<h2>Add a Review:</h2>';
@@ -171,9 +171,9 @@
           echo '<p>Please <a href="login.php">log in</a> to add a review.</p>';
         }
         ?>
-            </div>
-            <div class="left-container">
-                <?php
+      </div>
+      <div class="left-container">
+        <?php
         // connect 
         require_once 'connect.php';
 
@@ -203,10 +203,10 @@
           echo '<p>No reviews yet. Be the first to add one!</p>';
         }
         ?>
-            </div>
-        </div>
-        <!-- </div> -->
-    </main>
+      </div>
+    </div>
+    <!-- </div> -->
+  </main>
 </body>
 
 </html>
