@@ -22,66 +22,109 @@
             <div class="right-container">
                 <h1>Search </h1>
                 <!-- form to search, filter, and sort -->
+                <!-- use a table -->
                 <form action="search_results.php" method="post">
-                    <label for="item-name">Search:</label>
-                    <input type="text" id="item-name" name="item-name" onkeyup="showHint(this.value)">
-                    <p>Suggestions: <span id="txtHint"></span></p>
-                    <label for="location">Location:</label>
-                    <select id="location" name="location">
-                        <option value="">All</option>
-                        <?php
-            // Include the connect.php file to establish a connection using the $pdo variable
-            require_once 'connect.php';
+                    <table>
+                        <tr>
+                            <td>
+                                <label for="item-name">Item Name</label>
+                            </td>
+                            <td>
+                                <input type="text" name="item-name" id="item-name" onkeyup="showHint(this.value)">
+                            </td>
+                        </tr>
+                        <p>Suggestions: <span id="txtHint"></span></p>
+                        <tr>
+                            <td>
+                                <label for="location">Location</label>
+                            </td>
+                            <td>
+                                <select name="location" id="location">
+                                    <option value="">All</option>
+                                    <?php
+                  // Include the connect.php file to establish a connection using the $pdo variable
+                  require_once 'connect.php';
 
-            // Build and execute SQL query using prepared statements
-            $sql = "SELECT DISTINCT city FROM stores ORDER BY city ASC";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute();
+                  // Build query
+                  $sql = "SELECT DISTINCT city FROM stores ORDER BY city ASC";
 
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                  // Prepare and execute query
+                  $stmt = $pdo->prepare($sql);
+                  $stmt->execute();
+                  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Check if there are any results
-            if (count($result) > 0) {
-              foreach ($result as $row) {
-                echo '<option value="' . $row['city'] . '">' . $row['city'] . '</option>';
-              }
-            }
-            ?>
-                    </select>
-                    <label for="store">Store:</label>
-                    <select id="store" name="store">
-                        <option value="">All</option>
-                        <?php
-            // Include the connect.php file to establish a connection using the $pdo variable
-            require_once 'connect.php';
+                  // Check for results
+                  if (count($result) > 0) {
+                    // Display cities
+                    foreach ($result as $row) {
+                      echo "<option value='" . $row['city'] . "'>" . $row['city'] . "</option>";
+                    }
+                  } else {
+                    // No results found
+                    echo "<option value=''>No cities found.</option>";
+                  }
+                  ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="store">Store</label>
+                            </td>
+                            <td>
+                                <select name="store" id="store">
+                                    <option value="">All</option>
+                                    <?php
+                  // Include the connect.php file to establish a connection using the $pdo variable
+                  require_once 'connect.php';
 
-            // Build and execute SQL query using prepared statements
-            $sql = "SELECT id, name FROM stores ORDER BY name ASC";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute();
+                  // Build query
+                  $sql = "SELECT id, name FROM stores ORDER BY name ASC";
 
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                  // Prepare and execute query
+                  $stmt = $pdo->prepare($sql);
+                  $stmt->execute();
+                  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Check if there are any results
-            if (count($result) > 0) {
-              foreach ($result as $row) {
-                echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
-              }
-            }
-            ?>
-                    </select>
-                    <label for="sort">Sort By:</label>
-                    <select id="sort" name="sort">
-                        <option value="name-asc">Name (A-Z)</option>
-                        <option value="name-desc">Name (Z-A)</option>
-                        <option value="price-asc">Price (Low to High)</option>
-                        <option value="price-desc">Price (High to Low)</option>
-                    </select>
-                    <input type="submit" value="Search">
+                  // Check for results
+                  if (count($result) > 0) {
+                    // Display stores
+                    foreach ($result as $row) {
+                      echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
+                    }
+                  } else {
+                    // No results found
+                    echo "<option value=''>No stores found.</option>";
+                  }
+                  ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="sort">Sort</label>
+                            </td>
+                            <td>
+                                <select name="sort" id="sort">
+                                    <option value="name-asc">Name (A-Z)</option>
+                                    <option value="name-desc">Name (Z-A)</option>
+                                    <option value="price-asc">Price (Low to High)</option>
+                                    <option value="price-desc">Price (High to Low)</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" value="Search">
+                            </td>
+                        </tr>
+                    </table>
                 </form>
+
             </div>
 
             <div class="left-container">
+
                 <h1>Results </h1>
                 <?php
         // Include the connect.php file to establish a connection using the $pdo variable

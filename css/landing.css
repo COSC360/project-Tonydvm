@@ -171,3 +171,25 @@ textarea:focus, input:focus{
     padding: 2em;
     border-radius: 1em;
 }
+
+/* class comments container */
+.comments-container{
+    background-color: rgb(37,40,42);
+    margin: 1em;
+    padding: 2em;
+    border-radius: 1em;
+}
+
+/* class price-history-chart */
+.price-history-chart{
+    background-color: rgb(37,40,42);
+    /* max-height: 20rem; */
+    width: auto;
+}
+
+/* id priceHistoryChart */
+#priceHistoryChart{
+    background-color: rgb(37,40,42);
+    max-height: 20rem;
+    width: auto;
+}

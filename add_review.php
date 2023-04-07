@@ -13,7 +13,7 @@ if (!isset($_SESSION['user'])) {
 require_once 'connect.php';
 
 // Get user ID from session
-$user_id = $_SESSION['user']['id'];
+$user_id = $_SESSION['user'];
 
 // Insert review into user_reviews
 $sql = "INSERT INTO user_reviews (user_id, grocery_item_id, rating, comment) VALUES (?, ?, ?, ?)";
@@ -28,4 +28,3 @@ $pdo = null;
 // Redirect to product_details.php
 header('Location: product_details.php?id=' . $_POST['product_id']);
 exit();
-?>
