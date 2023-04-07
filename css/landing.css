@@ -193,3 +193,20 @@ textarea:focus, input:focus{
     max-height: 20rem;
     width: auto;
 }
+
+/* all input with class category */
+input.category{
+    background-color: rgb(50,53,55);
+    padding: 1em;
+    margin: 0.5em;
+    border-radius: 1em;
+    color: white;
+    border-color: none;
+    border: none;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+input.category:hover {
+    background-color: rgb(30, 32, 33);
+    cursor: pointer;
+}

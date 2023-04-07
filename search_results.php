@@ -18,6 +18,9 @@
     ?>
     </header>
     <main>
+        <?php 
+    include_once 'breadcrumbs.php';
+    ?>
         <div class="body-container">
             <div class="right-container">
                 <h1>Search </h1>
@@ -100,6 +103,41 @@
                                 </select>
                             </td>
                         </tr>
+                        <!-- category -->
+                        <tr>
+                            <td>
+                                <label for="category">Category</label>
+                            </td>
+                            <td>
+                                <select name="category" id="category">
+                                    <option value="">All</option>
+                                    <?php
+                  // Include the connect.php file to establish a connection using the $pdo variable
+                  require_once 'connect.php';
+                  // table categories (id, name)
+                  // Build query
+                  $sql = "SELECT id, name FROM categories ORDER BY name ASC";
+
+                  // Prepare and execute query
+                  $stmt = $pdo->prepare($sql);
+                  $stmt->execute();
+                  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                  // Check for results
+                  if (count($result) > 0) {
+                    // Display categories
+                    foreach ($result as $row) {
+                      echo "<option value='" . $row['name'] . "'>" . $row['name'] . "</option>";
+                    }
+                  } else {
+                    // No results found
+                    echo "<option value=''>No categories found.</option>";
+                  }
+                  ?>
+                                </select>
+                            </td>
+                        </tr>
+
                         <tr>
                             <td>
                                 <label for="sort">Sort</label>
@@ -130,10 +168,18 @@
         // Include the connect.php file to establish a connection using the $pdo variable
         require_once 'connect.php';
 
+        // if category is in url from clicking on category link, set it to a variable
+        if (isset($_GET['category'])) {
+          $selected_category = $_GET['category'];
+        } else {
+          $selected_category = '';
+        }
+
         // Get search query and selected store and city from form submission
         $search_query = '%' . $_POST['item-name'] . '%';
         $selected_city = $_POST['location'];
         $selected_store = $_POST['store'];
+        $selected_category = $_POST['category'];
 
         // if null values are passed, set them to empty strings
         if ($selected_city == null) {
@@ -141,6 +187,9 @@
         }
         if ($selected_store == null) {
           $selected_store = '';
+        }
+        if ($selected_category == null) {
+          $selected_category = '';
         }
 
         // trim whitespace from search query
@@ -179,10 +228,11 @@
       WHERE grocery_items.name LIKE ?
       AND (stores.city = ? OR ? = '')
       AND (stores.name = ? OR ? = '')
+      AND (grocery_items.category_name = ? OR ? = '')
       ORDER BY " . $sort;
 
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$search_query, $selected_city, $selected_city, $selected_store, $selected_store]);
+        $stmt->execute([$search_query, $selected_city, $selected_city, $selected_store, $selected_store, $selected_category, $selected_category]);
 
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         ?>
