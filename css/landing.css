@@ -224,3 +224,17 @@ input.category:hover {
     padding: 2em;
     border-radius: 1em;
 }
+
+.change-password {
+    background-color: rgb(37,40,42);
+    margin: 1em;
+    padding: 2em;
+    border-radius: 1em;
+}
+
+.admin-options  {
+    background-color: rgb(37,40,42);
+    margin: 1em;
+    padding: 2em;
+    border-radius: 1em;
+}

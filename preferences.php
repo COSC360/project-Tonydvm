@@ -9,11 +9,9 @@
 
 <body>
   <header>
-    <div class="header-wrapper">
-      <a href="landing.php">
-        <h1 id="logo">PANTRY</h1>
-      </a>
-    </div>
+    <?php
+    include_once 'header_min.php';
+    ?>
   </header>
   <div class="main">
     <div class="breadcrumb">
@@ -67,15 +65,41 @@
                 <td>Email:</td>
                 <td>' . $row['email'] . '</td>
               </tr>
-              <tr>
-                <td>Password:</td>
-                <td>' . $row['password'] . '</td>
-              </tr>
             </table>
           </div>
         </div>
         ';
       }
+      // option to change password
+      echo '
+        <div class="change-password">
+          <h2>Change Password</h2>
+          <form action="change_password.php" method="post">
+            <label for="old-password">Old Password:</label>
+            <input type="password" id="old-password" name="old-password" placeholder="Old Password" />
+            <label for="new-password">New Password:</label>
+            <input type="password" id="new-password" name="new-password" placeholder="New Password" />
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm Password" />
+            <input type="submit" value="Submit" />
+          </form>
+        </div>
+        ';
+
+      // check if url has error message
+      if (isset($_GET['message'])) {
+        // get error message
+        $message = $_GET['message'];
+        // if error message is 1, show error message
+        if ($message == 1) {
+          echo '<p class="error">Password changed successfully!</p>';
+        } else if ($message == 2) {
+          echo '<p class="error">New password does not match confirm password!</p>';
+        } else if ($message == 3) {
+          echo '<p class="error">Old password does not match password in database!</p>';
+        }
+      }
+
       // if role is admin, include options to add price to grocery_item_prices table (id, grocery_item_id, store_id, price, price_date) from list of products from grocery_items table (id, name, brand, category_name, description, image_url, weight)
       if ($role == 'admin') {
         // query for list of products with id and name
@@ -130,7 +154,7 @@
     ?>
     <!-- log out button ends php session -->
     <a href="logout.php">
-      <div class="button" style="width:20em;">
+      <div class="button" style="width:5rem; margin-left:1rem;">
         <h2>Log Out</h2>
       </div>
     </a>
