@@ -240,10 +240,11 @@
         ?>
         <div class="product-container">
           <?php
-          // Check if there are any results
+          // Check if there are any results and display them if there are
           if (count($result) > 0) {
             foreach ($result as $row) {
-              echo '<a href="product_details.php?id=' . $row['id'] . '">';
+              // pass grocery_item_id and store_name to url
+              echo '<a href="product_details.php?id=' . $row['id'] . '&store=' . $row['store_name'] . '">';
               echo '<div class="product">';
               echo '<img src="' . $row['image_url'] . '" alt="' . $row['name'] . '" style="max-width: 100px; max-height: 100px;">';
               echo '<h3>' . $row['name'] . '</h3>';

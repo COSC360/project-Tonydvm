@@ -181,18 +181,12 @@ textarea:focus, input:focus{
 }
 
 /* class price-history-chart */
-.price-history-chart{
-    background-color: rgb(37,40,42);
-    /* max-height: 20rem; */
-    width: auto;
-}
-
-/* id priceHistoryChart */
 #priceHistoryChart{
     background-color: rgb(37,40,42);
     max-height: 20rem;
-    width: auto;
+    width: 100%;
 }
+
 
 /* all input with class category */
 input.category{

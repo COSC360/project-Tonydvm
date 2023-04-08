@@ -17,37 +17,38 @@
   </header>
 
   <main>
+    <?php
+    // Connect to the database
+    require_once 'connect.php';
+
+
+    // grocery_items table (id, name, brand, category_name, description)
+    // grocery_item_prices table (id, grocery_item_id, store_id, price, price_date)
+    // price_history table (price_history_id, price_id, price, history_date)
+    // stores table (id, name, address, city, state, zip)
+    // select everything from all tables and select grocery_items.name as grocery_item_name
+    $sql = "SELECT grocery_items.id, grocery_items.name, grocery_items.brand, grocery_items.description, grocery_items.image_url, grocery_item_prices.price, stores.name as store_name, grocery_item_prices.price_date, grocery_item_prices.price, grocery_item_prices.price_date, grocery_item_prices.price
+              FROM grocery_items
+              INNER JOIN grocery_item_prices ON grocery_items.id = grocery_item_prices.grocery_item_id
+              INNER JOIN stores ON grocery_item_prices.store_id = stores.id
+              WHERE grocery_items.id = ? AND stores.name = ?
+              ORDER BY grocery_item_prices.price_date DESC";
+
+    // Prepare and execute query
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$_GET['id'], $_GET['store']]);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    ?>
+
     <div class="breadcrumb">
       <?php
-      // create links in breadcrumbs for navigation 
-      // show landing.php, then search_results.php, then product_details.php
-
-      // get the current name from get request
-      $name = $_GET['id'];
-      // display as links
-      echo "<p><a href='landing.php'>Home</a> > <a href='search_results.php'>Search Results</a> > id:$name</p>";
+      $name = $result[0]['name'];
+      echo "<p><a href='landing.php'>Home</a> > <a href='search_results.php'>Search Results</a> > $name</p>";
       ?>
     </div>
     <div class="body-container">
       <div class="right-container">
-
         <?php
-        // Connect to the database
-        require_once 'connect.php';
-
-        // Build query
-        $sql = "SELECT grocery_items.name, grocery_items.description, grocery_items.weight, stores.name AS store_name, stores.city, grocery_item_prices.price, grocery_items.image_url, grocery_item_prices.price_date
-              FROM grocery_items
-              INNER JOIN grocery_item_prices ON grocery_items.id = grocery_item_prices.grocery_item_id
-              INNER JOIN stores ON grocery_item_prices.store_id = stores.id
-              WHERE grocery_items.id = ?
-              ORDER BY grocery_item_prices.price_date DESC";
-
-        // Prepare and execute query
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$_GET['id']]);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
         // Check for results
         if (count($result) > 0) {
           // Display product details
@@ -55,6 +56,7 @@
           echo "<div class='product-details'>";
           echo "<h1>" . $row["name"] . "</h1>";
           echo "<img src='" . $row["image_url"] . "' alt='" . $row["name"] . "' width='100'>";
+          echo "<h2>Brand: " . $row["brand"] . "</h2>";
           echo "<h2>From " . $row["store_name"] . "</h2>";
           echo "<h2> $" . $row["price"] . "</h2>";
           echo "<p>Description: " . $row["description"] . "</p>";
@@ -108,13 +110,33 @@
           }
 
 
-          // Generate price history data for chart
+          // Generate price history data for product at store using 
+          // price_history table (price_history_id, price_id FK to grocery_items_price.id, price, history_date)
+          // grocery_item_prices table (id, grocery_item_id FK to grocery_items.id, store_id FK to stores.id, price, price_date)
+          // stores table (id, name, address, city, state, zip)
+          $sql = "SELECT price_history.price, price_history.history_date
+                    FROM price_history
+                    INNER JOIN grocery_item_prices ON price_history.price_id = grocery_item_prices.id
+                    INNER JOIN stores ON grocery_item_prices.store_id = stores.id
+                    WHERE grocery_item_prices.grocery_item_id = ? AND stores.name = ?
+                    ORDER BY price_history.history_date ASC";
+
+          // Prepare and execute query
+          $stmt = $pdo->prepare($sql);
+          $stmt->execute([$_GET['id'], $_GET['store']]);
+          $price_history = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+          // Generate price history labels and data
           $price_history_labels = [];
           $price_history_data = [];
-          foreach ($result as $price_row) {
-            $price_history_labels[] = $price_row['price_date'];
-            $price_history_data[] = $price_row['price'];
+          foreach ($price_history as $row) {
+            $price_history_labels[] = date('m/d/y', strtotime($row['history_date']));
+            $price_history_data[] = $row['price'];
           }
+
+
+
+          // Display chart
           echo "<div class='price-history-chart'>";
           echo "<canvas id='priceHistoryChart'></canvas>";
           echo "</div>";
