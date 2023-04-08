@@ -14,108 +14,253 @@
 <body>
   <header>
     <?php
-      require_once 'header_min.php';
+    require_once 'header_min.php';
     ?>
   </header>
   <main>
-    <h1>Search Results</h1>
-    <form method="post" class="search-form" action="">
-      <label for="item-name">Search for Item Name:</label>
-      <input type="text" id="item-name" autocomplete="off" name="item-name" placeholder="Search for a product..."
-        onkeyup="showHint(this.value)">
-      <div id="search-suggestions"></div>
-
-      <label for="store">Store:</label>
-      <select id="store" name="store">
-        <option value="">Any Store</option>
-        <option value="Save-On Foods">Save-On Foods</option>
-        <option value="Canadian Supermarket">Canadian Supermarket</option>
-        <option value="Costco">Costco</option>
-        <option value="Walmart">Walmart</option>
-        <option value="Independent Grocer">Independent Grocer</option>
-      </select>
-
-
-
-      <label for="location">Location:</label>
-      <select id="location" name="location">
-        <option value="">Any Location</option>
-        <option value="Toronto">Toronto</option>
-        <option value="Vancouver">Vancouver</option>
-        <option value="Montreal">Montreal</option>
-        <option value="Calgary">Calgary</option>
-        <option value="Kelowna">Kelowna</option>
-        <option value="Edmonton">Edmonton</option>
-        <option value="Ottawa">Ottawa</option>
-        <option value="Quebec City">Quebec City</option>
-      </select>
-
-      <button type="submit">Search</button>
-
-      <div id="search-results">
-        <!-- Search results will be displayed here -->
-      </div>
-    </form>
-    <p>Suggestions: <span id="txtHint"></span></p>
-
+    <div class="breadcrumb">
+      <?php
+      echo "<p><a href='landing.php'>Home</a> > Search Results</p>";
+      ?>
+    </div>
     <div class="body-container">
-    <?php
-      // Include the connect.php file to establish a connection using the $pdo variable
-      require_once 'connect.php';
+      <div class="right-container">
+        <h1>Search </h1>
+        <!-- form to search, filter, and sort -->
+        <!-- use a table -->
+        <form action="search_results.php" method="post">
+          <table>
+            <tr>
+              <td>
+                <label for="item-name">Item Name</label>
+              </td>
+              <td>
+                <input type="text" name="item-name" id="item-name" onkeyup="showHint(this.value)">
+              </td>
+            </tr>
+            <p>Suggestions: <span id="txtHint"></span></p>
+            <tr>
+              <td>
+                <label for="location">Location</label>
+              </td>
+              <td>
+                <select name="location" id="location">
+                  <option value="">All</option>
+                  <?php
+                  // Include the connect.php file to establish a connection using the $pdo variable
+                  require_once 'connect.php';
 
-      // Get search query and selected store and city from form submission
-      $search_query = '%' . $_POST['item-name'] . '%';
-      $selected_city = $_POST['location'];
-      $selected_store = $_POST['store'];
+                  // Build query
+                  $sql = "SELECT DISTINCT city FROM stores ORDER BY city ASC";
 
-      // if null values are passed, set them to empty strings
-      if ($selected_city == null) {
-        $selected_city = '';
-      }
-      if ($selected_store == null) {
-        $selected_store = '';
-      }
+                  // Prepare and execute query
+                  $stmt = $pdo->prepare($sql);
+                  $stmt->execute();
+                  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-      // trim whitespace from search query
-      $search_query = trim($search_query);
+                  // Check for results
+                  if (count($result) > 0) {
+                    // Display cities
+                    foreach ($result as $row) {
+                      echo "<option value='" . $row['city'] . "'>" . $row['city'] . "</option>";
+                    }
+                  } else {
+                    // No results found
+                    echo "<option value=''>No cities found.</option>";
+                  }
+                  ?>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label for="store">Store</label>
+              </td>
+              <td>
+                <select name="store" id="store">
+                  <option value="">All</option>
+                  <?php
+                  // Include the connect.php file to establish a connection using the $pdo variable
+                  require_once 'connect.php';
 
-      // Build and execute SQL query using prepared statements
-      $sql = "SELECT grocery_items.id, grocery_items.name, grocery_items.description, grocery_items.image_url, stores.name AS store_name, grocery_item_prices.price
+                  // Build query
+                  $sql = "SELECT id, name FROM stores ORDER BY name ASC";
+
+                  // Prepare and execute query
+                  $stmt = $pdo->prepare($sql);
+                  $stmt->execute();
+                  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                  // Check for results
+                  if (count($result) > 0) {
+                    // Display stores
+                    foreach ($result as $row) {
+                      echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
+                    }
+                  } else {
+                    // No results found
+                    echo "<option value=''>No stores found.</option>";
+                  }
+                  ?>
+                </select>
+              </td>
+            </tr>
+            <!-- category -->
+            <tr>
+              <td>
+                <label for="category">Category</label>
+              </td>
+              <td>
+                <select name="category" id="category">
+                  <option value="">All</option>
+                  <?php
+                  // Include the connect.php file to establish a connection using the $pdo variable
+                  require_once 'connect.php';
+                  // table categories (id, name)
+                  // Build query
+                  $sql = "SELECT id, name FROM categories ORDER BY name ASC";
+
+                  // Prepare and execute query
+                  $stmt = $pdo->prepare($sql);
+                  $stmt->execute();
+                  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                  // Check for results
+                  if (count($result) > 0) {
+                    // Display categories
+                    foreach ($result as $row) {
+                      echo "<option value='" . $row['name'] . "'>" . $row['name'] . "</option>";
+                    }
+                  } else {
+                    // No results found
+                    echo "<option value=''>No categories found.</option>";
+                  }
+                  ?>
+                </select>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <label for="sort">Sort</label>
+              </td>
+              <td>
+                <select name="sort" id="sort">
+                  <option value="name-asc">Name (A-Z)</option>
+                  <option value="name-desc">Name (Z-A)</option>
+                  <option value="price-asc">Price (Low to High)</option>
+                  <option value="price-desc">Price (High to Low)</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input type="submit" value="Search">
+              </td>
+            </tr>
+          </table>
+        </form>
+
+      </div>
+
+      <div class="left-container">
+
+        <h1>Results </h1>
+        <?php
+        // Include the connect.php file to establish a connection using the $pdo variable
+        require_once 'connect.php';
+
+        // if category is in url from clicking on category link, set it to a variable
+        if (isset($_GET['category'])) {
+          $selected_category = $_GET['category'];
+        } else {
+          $selected_category = '';
+        }
+
+        // Get search query and selected store and city from form submission
+        $search_query = '%' . $_POST['item-name'] . '%';
+        $selected_city = $_POST['location'];
+        $selected_store = $_POST['store'];
+        $selected_category = $_POST['category'];
+
+        // if null values are passed, set them to empty strings
+        if ($selected_city == null) {
+          $selected_city = '';
+        }
+        if ($selected_store == null) {
+          $selected_store = '';
+        }
+        if ($selected_category == null) {
+          $selected_category = '';
+        }
+
+        // trim whitespace from search query
+        $search_query = trim($search_query);
+
+        // check for sort
+        if (isset($_POST['sort'])) {
+          $sort = $_POST['sort'];
+          switch ($sort) {
+            case 'name-asc':
+              $sort = 'grocery_items.name ASC';
+              break;
+            case 'name-desc':
+              $sort = 'grocery_items.name DESC';
+              break;
+            case 'price-asc':
+              $sort = 'grocery_item_prices.price ASC';
+              break;
+            case 'price-desc':
+              $sort = 'grocery_item_prices.price DESC';
+              break;
+            default:
+              $sort = 'grocery_items.name ASC';
+              break;
+          }
+        } else {
+          $sort = 'grocery_items.name ASC';
+        }
+
+
+        // Build and execute SQL query using prepared statements
+        $sql = "SELECT grocery_items.id, grocery_items.name, grocery_items.description, grocery_items.image_url, stores.name AS store_name, grocery_item_prices.price
       FROM grocery_items
       JOIN grocery_item_prices ON grocery_items.id = grocery_item_prices.grocery_item_id
       JOIN stores ON grocery_item_prices.store_id = stores.id
       WHERE grocery_items.name LIKE ?
       AND (stores.city = ? OR ? = '')
       AND (stores.name = ? OR ? = '')
-      ORDER BY grocery_items.name ASC";
+      AND (grocery_items.category_name = ? OR ? = '')
+      ORDER BY " . $sort;
 
-      $stmt = $pdo->prepare($sql);
-      $stmt->execute([$search_query, $selected_city, $selected_city, $selected_store, $selected_store]);
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$search_query, $selected_city, $selected_city, $selected_store, $selected_store, $selected_category, $selected_category]);
 
-      $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        ?>
+        <div class="product-container">
+          <?php
+          // Check if there are any results
+          if (count($result) > 0) {
+            foreach ($result as $row) {
+              echo '<a href="product_details.php?id=' . $row['id'] . '">';
+              echo '<div class="product">';
+              echo '<img src="' . $row['image_url'] . '" alt="' . $row['name'] . '" style="max-width: 100px; max-height: 100px;">';
+              echo '<h3>' . $row['name'] . '</h3>';
+              echo '<p>' . $row['description'] . '</p>';
+              echo '<p>' . $row['store_name'] . '</p>';
+              echo '<p>$' . $row['price'] . '</p>';
+              echo '</div>';
 
-      // Check if there are any results
-      if (count($result) > 0) {
-        echo "<table>";
-        echo "<tr><th>Image</th><th>ID</th><th>Name</th><th>Price</th></tr>";
-        // Output data of each row
-        foreach ($result as $row) {
-          echo "<tr>";
-          echo "<td><img src='" . $row["image_url"] . "' alt='" . $row["name"] . "' width='100' height='100'></td>";
-          echo "<td>" . $row["id"] . "</td>";
-          echo "<td><a href='product_details.php?id=" . $row['id'] . "'>" . $row['name'] . "</a></td>";
-          echo "<td>" . $row["price"] . "</td>";
-          echo "</tr>";
-        }
-        echo "</table>";
-      } else {
-        echo "No results found.";
-      }
+              echo '</a>';
+            }
+          } else {
+            echo '<p>No results found.</p>';
+          }
+          ?>
 
-      // Close statement and connection
-      $stmt = null;
-      $pdo = null;
-      ?>
+        </div>
+      </div>
     </div>
   </main>
 </body>

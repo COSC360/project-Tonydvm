@@ -82,7 +82,9 @@
     // get form data 
     $username = $_POST['username'];
     $email = $_POST['email'];
-    $password = $_POST['password'];
+    //$password = $_POST['password'];
+
+    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
     $image = $_POST['image'];
 
     // check if image was uploaded
